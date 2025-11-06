@@ -1,16 +1,14 @@
 # ReGenie
 
-Mobile Games and Apps Development Competition App
+### Meaning of “ReGenie”
 
-## Getting Started
+It’s a blend of two words:
+ “**Regen**” → short for Regenerate / Renewal / Green energy 🌿
+  → symbolizes nature’s ability to heal and renew itself.
+ **Genie**” 🧞‍♂️ 
+   → a magical helper that grants wishes or assists you.
 
-This project is a starting point for a Flutter application.
+It connects directly with sustainability and regeneration.
+So ReGenie literally means:
+“A smart, magical helper that helps regenerate the planet.” 🌍💚
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
