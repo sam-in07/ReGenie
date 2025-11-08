@@ -52,4 +52,19 @@ class AppTextstyle {
     color: Color(0xfff3f3f3),
     fontWeight: FontWeight.w400,
   );
+  //Regine
+  static TextStyle textStyle15BlackW700 = GoogleFonts.inter(
+    fontSize: 15,
+    color: Color(0xff000000),
+    fontWeight: FontWeight.w700,
+  );
+  //#009966
+  static TextStyle textStyle24greenW600 = GoogleFonts.poppins(
+    fontSize: 24,
+    color: Color(0xff009966),
+    fontWeight: FontWeight.w600,
+  );
+
+
+
 }

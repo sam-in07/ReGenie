@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regenie/core/firebase/firebase_options.dart';
 import 'package:regenie/core/firebase/firebase_service.dart';
 import 'package:regenie/data/repositories/user_repo_impl.dart';
+import 'package:regenie/domain/usecases/get_daily_challenge.dart';
+import 'package:regenie/presentation/Challenges/Bloc/challenges_cubit.dart';
 import 'package:regenie/presentation/Splash/splash_screen.dart';
 import 'package:regenie/presentation/User/Bloc/user_cubit.dart';
 
@@ -25,10 +27,9 @@ Future<void> main() async {
         ),
         // 🧩 Add more cubits later like:
 
-        // BlocProvider(
-        //     create: (_) =>
-        //         ChallengeCubit()
-        // ),
+        BlocProvider(
+          create: (_) => ChallengeCubit(GetDailyChallenge()),
+        ),
         // BlocProvider(create: (_) => ChatCubit()),
       ],
       child: const MyApp(),
