@@ -21,6 +21,19 @@ class UserCubit extends Cubit<UserState> {
 
   }
 
+  // Future<void> signInWithGoogle() async {
+  //   emit(UserLoading());
+  //   final result = await userRepository.signInWithGoogle();
+  //   result.fold(
+  //         (failure) => emit(UserError(failure.message)),
+  //         (user) => emit(UserLoggedIn(user)),
+  //   );
+  // }
+
+
+
+
+
   Future<void> register(String email, String password, String name) async {
     emit(UserLoading());
     final result = await userRepository.registerUser(

@@ -153,8 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: Colors.white,
                     ),
                     onPressed: () {
-                      // TODO: Handle Google sign-in
+                     // onPressed: () => context.read<UserCubit>().signInWithGoogle(),
                     },
+
                     icon: Image.asset(
                       'assets/images/google.png',
                       height: 22, // adjusted for visual balance
