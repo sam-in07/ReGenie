@@ -47,9 +47,9 @@ class AppTextstyle {
     color: Color(0xFF302025),
     fontWeight: FontWeight.w400,
   );
-  static TextStyle textStyle24whiteW400 = GoogleFonts.inder(
-    fontSize: 24,
-    color: Color(0xfff3f3f3),
+  static TextStyle textStyle16greyW400 = GoogleFonts.inter(
+    fontSize: 16,
+    color: Color(0xff4a5565),
     fontWeight: FontWeight.w400,
   );
   //Regine
@@ -65,6 +65,12 @@ class AppTextstyle {
     fontWeight: FontWeight.w600,
   );
 
+  static TextStyle textStyle24darkblackW600 = GoogleFonts.poppins(
+    fontSize: 24,
+    color: Color(0xff1e2939),
+    fontWeight: FontWeight.w600,
+
+  );
 
 
 }

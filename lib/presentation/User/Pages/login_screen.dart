@@ -4,6 +4,7 @@ import 'package:regenie/presentation/User/Pages/registration_screen.dart';
 import 'package:regenie/presentation/widgets/app_text.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
 import 'package:regenie/presentation/widgets/primary_button.dart';
+import 'package:regenie/presentation/User/Pages/onboarding_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (ctx) => HomeScreen(),
+                        builder: (ctx) => OnboardingScreen(),
                       ),
                     );
                   },
