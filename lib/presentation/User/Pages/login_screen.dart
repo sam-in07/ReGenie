@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:regenie/presentation/Home/Pages/home_screen.dart';
+import 'package:regenie/presentation/User/Pages/registration_screen.dart';
 import 'package:regenie/presentation/widgets/app_text.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
 import 'package:regenie/presentation/widgets/primary_button.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -105,8 +108,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   radius: 10,
                   color: const Color(0xFF00C68E),
                   title: "Sign In",
+                  // onTap: () {
+                  //   // Handle login tap
+                  //   //HomeScreen
+                  // },
                   onTap: () {
-                    // Handle login tap
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (ctx) => HomeScreen(),
+                      ),
+                    );
                   },
                 ),
 
@@ -163,7 +174,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Signup link
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (ctx) => RegistrationScreen(),
+                      ),
+                    );
+                  },
                   child: Text(
                     "Don't have an account? Create one",
                     style: TextStyle(
