@@ -50,6 +50,8 @@ class _SplashScreenState extends State<SplashScreen>
     final height = size.height;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFD1F1DD),
+
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
