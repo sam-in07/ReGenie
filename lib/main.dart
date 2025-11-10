@@ -8,6 +8,11 @@ import 'package:regenie/domain/usecases/get_daily_challenge.dart';
 import 'package:regenie/presentation/Challenges/Bloc/challenges_cubit.dart';
 import 'package:regenie/presentation/Splash/splash_screen.dart';
 import 'package:regenie/presentation/User/Bloc/user_cubit.dart';
+import 'package:regenie/presentation/User/Pages/login_screen.dart';
+import 'package:regenie/presentation/User/Pages/onboarding_screen.dart';
+import 'package:regenie/presentation/User/Pages/registration_screen.dart';
+import 'package:regenie/presentation/navigation/app_routes.dart';
+import 'package:regenie/presentation/navigation/bottom_nav.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,25 +43,26 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       title: 'ReGenie App',
-
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
 
-      home:  SplashScreen(),
+      initialRoute: AppRoutes.splash,
+      routes: {
+        AppRoutes.splash: (context) => const SplashScreen(),
+        AppRoutes.login: (context) => const LoginScreen(),
+        AppRoutes.register: (context) => const RegistrationScreen(),
+        AppRoutes.onboarding: (context) => const OnboardingScreen(),
+        AppRoutes.main: (context) => const BottomNavBar(), // Must be a Widget type
+      },
     );
   }
 }
-
-
