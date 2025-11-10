@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    onGenerateRoute: AppRoutes.generateRoute;
     return MaterialApp(
       title: 'ReGenie App',
       debugShowCheckedModeBanner: false,

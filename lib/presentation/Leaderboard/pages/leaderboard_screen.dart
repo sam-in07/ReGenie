@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:regenie/presentation/widgets/app_text_style.dart';
 
-class LeaderboardScreen extends StatefulWidget {
+class LeaderboardScreen extends StatelessWidget {
   const LeaderboardScreen({super.key});
 
   @override
-  State<LeaderboardScreen> createState() => _LeaderboardScreenState();
-}
-
-class _LeaderboardScreenState extends State<LeaderboardScreen> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
+      appBar: AppBar(
+        title: const Text("Leaderboard",
+            //style: AppTextstyle.textStyle20blackW600
+          ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: Center(
+        child: Text(
+          "Leaderboard Screen",
+          style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+        ),
+      ),
+    );
   }
 }
