@@ -45,9 +45,31 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   AppRoutes.main: (context) => const BottomNavBar(),
+  //
+  //
+  //   return MaterialApp(
+  //     title: 'ReGenie App',
+  //     debugShowCheckedModeBanner: false,
+  //     theme: ThemeData(
+  //       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+  //       useMaterial3: true,
+  //     ),
+  //
+  //     initialRoute: AppRoutes.splash,
+  //     routes: {
+  //       AppRoutes.splash: (context) => const SplashScreen(),
+  //       AppRoutes.login: (context) => const LoginScreen(),
+  //       AppRoutes.register: (context) => const RegistrationScreen(),
+  //       AppRoutes.onboarding: (context) => const OnboardingScreen(),
+  //       AppRoutes.main: (context) => const BottomNavBar(), // Must be a Widget type
+  //     },
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
-    onGenerateRoute: AppRoutes.generateRoute;
     return MaterialApp(
       title: 'ReGenie App',
       debugShowCheckedModeBanner: false,
@@ -56,14 +78,18 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
+      // The first screen that shows up
       initialRoute: AppRoutes.splash,
+
+      // All available routes in your app
       routes: {
         AppRoutes.splash: (context) => const SplashScreen(),
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.register: (context) => const RegistrationScreen(),
         AppRoutes.onboarding: (context) => const OnboardingScreen(),
-        AppRoutes.main: (context) => const BottomNavBar(), // Must be a Widget type
+        AppRoutes.main: (context) => const BottomNavBar(), // ✅ Correct place
       },
     );
   }
+
 }

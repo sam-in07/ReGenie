@@ -366,6 +366,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontFamily: 'Inter',
             ),
           ),
+
         ],
       ),
     );

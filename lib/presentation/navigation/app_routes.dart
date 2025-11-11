@@ -8,30 +8,33 @@ import 'package:regenie/presentation/User/Pages/registration_screen.dart';
 import 'package:regenie/presentation/navigation/bottom_nav.dart';
 
 class AppRoutes {
-  static const String splash = '/';
-  static const String login = '/login';
-  static const String register = '/register';
-  static const String onboarding = '/onboarding';
-  static const String main = '/main';
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case splash:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
-      case login:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
-      case register:
-        return MaterialPageRoute(builder: (_) => const RegistrationScreen());
-      case onboarding:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
-      case main:
-        return MaterialPageRoute(builder: (_) => const BottomNavBar());
-      default:
-        return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('Route not found')),
-          ),
-        );
-    }
-  }
+  static const splash = '/splash';
+  static const login = '/login';
+  static const register = '/register';
+  static const onboarding = '/onboarding';
+  static const main = '/main'; // ✅ matches main.dart
+
+
+
+// static Route<dynamic> generateRoute(RouteSettings settings) {
+  //   switch (settings.name) {
+  //     case splash:
+  //       return MaterialPageRoute(builder: (_) => const SplashScreen());
+  //     case login:
+  //       return MaterialPageRoute(builder: (_) => const LoginScreen());
+  //     case register:
+  //       return MaterialPageRoute(builder: (_) => const RegistrationScreen());
+  //     case onboarding:
+  //       return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+  //     case main:
+  //       return MaterialPageRoute(builder: (_) => const BottomNavBar());
+  //     default:
+  //       return MaterialPageRoute(
+  //         builder: (_) => const Scaffold(
+  //           body: Center(child: Text('Route not found')),
+  //         ),
+  //       );
+  //   }
+  // }
 }

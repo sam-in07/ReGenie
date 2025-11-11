@@ -1,3 +1,6 @@
+import 'package:regenie/presentation/navigation/app_routes.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/Home/Pages/home_screen.dart';
 import 'package:regenie/presentation/widgets/primary_button.dart';
@@ -49,10 +52,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _goToHome() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const HomeScreen()), // ✅ routes to your HomeScreen
-    );
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (_) => const HomeScreen()), // ✅ routes to your HomeScreen
+    // );
+    Navigator.pushReplacementNamed(context, AppRoutes.main);
+
+    // Navigator.pushReplacementNamed(context, '/main-nav');
+
+
   }
 
   @override
