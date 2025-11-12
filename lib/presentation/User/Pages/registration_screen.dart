@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/User/Pages/login_screen.dart';
+import 'package:regenie/presentation/navigation/bottom_nav.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
 
 
@@ -11,6 +14,60 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool _loading = false;
+
+  Future<void> _register() async {
+    if (_nameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("All fields are required")),
+      );
+      return;
+    }
+
+    setState(() => _loading = true);
+
+    try {
+      // 1️⃣ Create the user in Firebase Auth
+      final userCred = await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      final uid = userCred.user!.uid;
+
+      // 2️⃣ Store user data in Firestore
+      await _firestore.collection('users').doc(uid).set({
+        'name': _nameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      // 3️⃣ Optional: update display name in Firebase Auth
+      await userCred.user!.updateDisplayName(_nameController.text.trim());
+
+      // 4️⃣ Go to main app (BottomNavBar)
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const BottomNavBar()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Registration failed")),
+      );
+    } finally {
+      setState(() => _loading = false);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -123,10 +180,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   width: double.infinity,
                   radius: 10,
                   color: const Color(0xFF00C68E),
-                  title: "Create Account",
-                  onTap: () {
-                    // Handle registration
-                  },
+                  // title: "Create Account",
+                  // onTap: () {
+                  //   // Handle registration
+                  // },
+                  title: _loading ? "Please wait..." : "Create Account",
+                  onTap: _loading ? null : _register,
                 ),
                 SizedBox(height: height * 0.025),
 
