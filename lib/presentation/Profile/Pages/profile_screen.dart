@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/User/Pages/login_screen.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/achievement_card.dart';
@@ -6,9 +8,54 @@ import 'package:regenie/presentation/widgets/Button_Cards/stat_card.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
 import 'package:regenie/presentation/widgets/colors.dart';
 
-
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  String? _name;
+  String? _email;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUser();
+  }
+
+  Future<void> _fetchUser() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    try {
+      final doc = await _firestore.collection('users').doc(user.uid).get();
+      setState(() {
+        _name = doc.data()?['name'] ?? user.displayName ?? 'Eco User';
+        _email = doc.data()?['email'] ?? user.email ?? '';
+        _loading = false;
+      });
+    } catch (_) {
+      setState(() {
+        _name = user.displayName ?? 'Eco User';
+        _email = user.email ?? '';
+        _loading = false;
+      });
+    }
+  }
+
+  Future<void> _logout() async {
+    await _auth.signOut();
+    if (mounted) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +66,11 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          "Profile",
-          style: AppTextstyle.textStyle12BlackW500,
-        ),
-        centerTitle: false,
+        title: Text("Profile", style: AppTextstyle.textStyle12BlackW500),
       ),
-      body: SingleChildScrollView(
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,38 +85,25 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  // Profile Image Placeholder
                   const CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.eco,
-                      color: Color(0xFF00B686),
-                      size: 40,
-                    ),
+                    child: Icon(Icons.eco, color: Color(0xFF00B686), size: 40),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Samin",
+                    _name ?? 'Eco User',
                     style: AppTextstyle.textStyle12BlackW500.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      "Level 19 Eco Champion",
-                      style: AppTextstyle.textStyle16blackW400.copyWith(
-                        color: Colors.white,
-                        fontSize: 13,
-                      ),
+                  Text(
+                    _email ?? '',
+                    style: AppTextstyle.textStyle16blackW400.copyWith(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 13,
                     ),
                   ),
                 ],
@@ -194,14 +226,7 @@ class ProfileScreen extends StatelessWidget {
               radius: 10,
               title: "Logout",
               color: Colors.redAccent,
-              onTap: () {
-
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (ctx) => LoginScreen(),
-                    ),
-                  );
-              },
+              onTap: _logout,
             ),
           ],
         ),

@@ -5,7 +5,6 @@ import 'package:regenie/presentation/User/Pages/login_screen.dart';
 import 'package:regenie/presentation/navigation/bottom_nav.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
 
-
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
 
@@ -51,10 +50,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // 3️⃣ Optional: update display name in Firebase Auth
+      // 3️⃣ Update display name in Firebase Auth
       await userCred.user!.updateDisplayName(_nameController.text.trim());
 
-      // 4️⃣ Go to main app (BottomNavBar)
+      // 4️⃣ Navigate to main app (BottomNavBar)
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const BottomNavBar()),
@@ -68,6 +67,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       setState(() => _loading = false);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -130,6 +130,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                 // Name field
                 TextField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     hintText: "Your name",
                     labelText: "Name",
@@ -145,6 +146,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                 // Email field
                 TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "your@email.com",
                     labelText: "Email",
@@ -160,6 +162,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                 // Password field
                 TextField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: "••••••••",
@@ -174,16 +177,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(height: height * 0.03),
 
-                // Create Account button using PrimaryButton
+                // Create Account button
                 PrimaryButton(
                   height: 48,
                   width: double.infinity,
                   radius: 10,
                   color: const Color(0xFF00C68E),
-                  // title: "Create Account",
-                  // onTap: () {
-                  //   // Handle registration
-                  // },
                   title: _loading ? "Please wait..." : "Create Account",
                   onTap: _loading ? null : _register,
                 ),
@@ -219,7 +218,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       backgroundColor: Colors.white,
                     ),
                     onPressed: () {
-                      // Handle Google Sign Up
+                      // TODO: Implement Google Sign Up
                     },
                     icon: Image.asset(
                       'assets/images/google.png',
@@ -242,7 +241,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onTap: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (ctx) => LoginScreen(),
+                        builder: (ctx) => const LoginScreen(),
                       ),
                     );
                   },

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/widgets/app_text.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
@@ -12,6 +14,40 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  String? _userName;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserName();
+  }
+
+  Future<void> _fetchUserName() async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      setState(() {
+        _userName = "Guest";
+        _loading = false;
+      });
+      return;
+    }
+
+    try {
+      final doc = await _firestore.collection('users').doc(user.uid).get();
+      if (doc.exists && doc.data()!.containsKey('name')) {
+        _userName = doc['name'];
+      } else {
+        _userName = user.displayName ?? "User";
+      }
+    } catch (_) {
+      _userName = user.displayName ?? "User";
+    }
+
+    if (mounted) setState(() => _loading = false);
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -39,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: height * 0.004),
             Text(
-              "Samin 👋",
+              "${_userName ?? 'User'} 👋",
               style: TextStyle(
                 color: const Color(0xFF009865),
                 fontSize: width * 0.055,
