@@ -50,13 +50,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // 3️⃣ Update display name in Firebase Auth
+      // 3️⃣ Optional: update display name in Firebase Auth
       await userCred.user!.updateDisplayName(_nameController.text.trim());
 
-      // 4️⃣ Navigate to main app (BottomNavBar)
+      // 4️⃣ Show success message and go to LoginScreen
       if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Account created successfully! Please log in."),
+          ),
+        );
+
+        // Navigate to login after short delay so Snackbar can show
+        await Future.delayed(const Duration(seconds: 1));
+
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const BottomNavBar()),
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
         );
       }
     } on FirebaseAuthException catch (e) {
@@ -67,6 +76,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       setState(() => _loading = false);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
