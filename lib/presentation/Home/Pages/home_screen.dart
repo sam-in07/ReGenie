@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/widgets/app_text.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
-import 'package:regenie/presentation/widgets/primary_button.dart';
+
 import 'package:regenie/presentation/widgets/colors.dart';
 
 class HomeScreen extends StatefulWidget {

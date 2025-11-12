@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/User/Pages/login_screen.dart';
-import 'package:regenie/presentation/widgets/primary_button.dart';
+import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
+
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});

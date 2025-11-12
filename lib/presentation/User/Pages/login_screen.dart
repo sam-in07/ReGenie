@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/Home/Pages/home_screen.dart';
 import 'package:regenie/presentation/User/Pages/registration_screen.dart';
+import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
 import 'package:regenie/presentation/widgets/app_text.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
-import 'package:regenie/presentation/widgets/primary_button.dart';
+
 import 'package:regenie/presentation/User/Pages/onboarding_screen.dart';
 
 
