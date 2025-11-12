@@ -6,6 +6,7 @@ class ChallengeCard extends StatelessWidget {
   final String subtitle;
   final int points;
   final bool completed;
+  final VoidCallback? onComplete; // callback for marking complete
 
   const ChallengeCard({
     super.key,
@@ -14,6 +15,7 @@ class ChallengeCard extends StatelessWidget {
     required this.subtitle,
     required this.points,
     this.completed = false,
+    this.onComplete,
   });
 
   @override
@@ -52,29 +54,52 @@ class ChallengeCard extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: completed ? Colors.grey[700] : Colors.black87,
+                    decoration: completed
+                        ? TextDecoration.lineThrough // 👈 strike-through
+                        : TextDecoration.none,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 14,
+                    decoration: completed
+                        ? TextDecoration.lineThrough // 👈 also strike subtitle
+                        : TextDecoration.none,
+                  ),
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  "+$points points",
-                  style: const TextStyle(
-                    color: Color(0xFF0EB177),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
+                Row(
+                  children: [
+                    // 👇 Incremental “up” icon (demo placeholder)
+                    const Icon(Icons.trending_up,
+                        size: 16, color: Color(0xFF0EB177)),
+                    const SizedBox(width: 4),
+                    Text(
+                      "+$points points",
+                      style: const TextStyle(
+                        color: Color(0xFF0EB177),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          Icon(
-            completed ? Icons.check_circle : Icons.radio_button_unchecked,
-            color: completed ? const Color(0xFF0EB177) : Colors.grey[400],
+
+          // ✅ Clickable complete button
+          GestureDetector(
+            onTap: onComplete,
+            child: Icon(
+              completed ? Icons.check_circle : Icons.radio_button_unchecked,
+              color: completed ? const Color(0xFF0EB177) : Colors.grey[400],
+              size: 26,
+            ),
           ),
         ],
       ),

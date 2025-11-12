@@ -157,7 +157,13 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                   subtitle: challenge["subtitle"],
                   points: challenge["points"],
                   completed: challenge["completed"],
+                  onComplete: () {
+                    setState(() {
+                      challenge["completed"] = !challenge["completed"]; // toggle complete
+                    });
+                  },
                 );
+
 
               },
             ),
