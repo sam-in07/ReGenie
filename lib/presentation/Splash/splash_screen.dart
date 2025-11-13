@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/User/Pages/login_screen.dart';
+import 'package:regenie/presentation/widgets/Animation/shaking_logo.dart';
 import 'package:regenie/presentation/widgets/app_text.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
 
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    // Simple fade-in animation for logo/text
+    // Simple fade-in animation for entire content
     _controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _fadeAnimation =
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Navigate to login after 3 seconds
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 6), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const LoginScreen()),
@@ -51,22 +52,15 @@ class _SplashScreenState extends State<SplashScreen>
 
     return Scaffold(
       backgroundColor: const Color(0xFFD1F1DD),
-
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: width * 0.6,
-                height: height * 0.15,
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(height: height * 0.015),
+
+              const ShakingLogo(),
+              SizedBox(height: height * 0.02),
               Text(
                 AppText.welcomeTo,
                 textAlign: TextAlign.center,

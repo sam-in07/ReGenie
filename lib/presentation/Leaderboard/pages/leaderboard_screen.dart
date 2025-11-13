@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/top_user_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LeaderboardScreen extends StatelessWidget {
   const LeaderboardScreen({super.key});
@@ -30,7 +32,19 @@ class LeaderboardScreen extends StatelessWidget {
           }
 
           final users = snapshot.data!;
+
+          // 🔹 Take top 3 users
           final topUsers = users.take(3).toList();
+
+          // 🔹 Reorder top 3 visually as [2nd, 1st, 3rd]
+          List<Map<String, dynamic>> orderedTop = [];
+          if (topUsers.length >= 3) {
+            orderedTop = [topUsers[1], topUsers[0], topUsers[2]];
+          } else {
+            orderedTop = topUsers;
+          }
+
+          // 🔹 Remaining users
           final others = users.skip(3).toList();
 
           return Column(
@@ -84,18 +98,22 @@ class LeaderboardScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 25),
+
+                        /// 🥇🥈🥉 Top 3 users
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: List.generate(topUsers.length, (index) {
-                            final user = topUsers[index];
+                          children: List.generate(orderedTop.length, (index) {
+                            final user = orderedTop[index];
+                            final isFirstPlace = user == topUsers.first;
+
                             return TopUserCard(
                               name: user['name'] ?? 'Unknown',
                               points: user['points'] ?? 0,
                               color: Colors.tealAccent.shade100,
                               icon: _mapIcon(user['icon']),
-                              isFirstPlace: index == 0,
-                              avatarSize: index == 0 ? 80 : 60,
+                              isFirstPlace: isFirstPlace,
+                              avatarSize: isFirstPlace ? 80 : 60,
                             );
                           }),
                         ),
@@ -113,7 +131,11 @@ class LeaderboardScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final user = others[index];
                     final rank = index + 4;
-                    final isYou = user['name'] == 'You';
+                    // ✅ Get current logged-in user
+                    final currentUid = FirebaseAuth.instance.currentUser?.uid;
+
+                    // ✅ Check if this row belongs to the current user
+                    final isYou = user['uid'] == currentUid;
 
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12),

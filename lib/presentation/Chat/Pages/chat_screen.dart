@@ -6,6 +6,26 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> messages = [
+      {
+        'text':
+        "Hi! I'm ReGenie, your AI eco companion. Ask me anything about living sustainably! 🌱",
+        'isUser': false,
+        'time': "10:25 PM",
+      },
+      {
+        'text': "hi",
+        'isUser': true,
+        'time': "10:26 PM",
+      },
+      {
+        'text':
+        "I recommend composting food scraps! It reduces landfill waste and creates nutrient-rich soil for gardens. Win-win! 🌱",
+        'isUser': false,
+        'time': "10:26 PM",
+      },
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
 
@@ -86,99 +106,74 @@ class ChatScreen extends StatelessWidget {
           /// ✅ Chat area
           Expanded(
             child: Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.all(16),
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            padding: const EdgeInsets.all(14),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius: BorderRadius.circular(16),
+              color: const Color(0xFFF1FBF6), // light greenish background
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[index];
+                  final isUser = message['isUser'] as bool;
+
+                  return Column(
+                    crossAxisAlignment:
+                    isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.all(14),
+                        constraints: const BoxConstraints(maxWidth: 280),
+                        decoration: BoxDecoration(
+                          color: isUser
+                              ? const Color(0xFF00C48C) // 🌿 user bubble green
+                              : Colors.white, // 🤖 AI bubble white
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x19000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                              spreadRadius: -2,
                             ),
-                            child: const Text(
-                              "Hi! I'm ReGenie, your AI eco companion. "
-                                  "Ask me anything about living sustainably! 🌱",
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 15,
-                              ),
+                            BoxShadow(
+                              color: Color(0x19000000),
+                              blurRadius: 6,
+                              offset: Offset(0, 4),
+                              spreadRadius: -1,
                             ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          "05:59 PM",
+                        child: Text(
+                          message['text'],
                           style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
+                            color: isUser
+                                ? Colors.white
+                                : const Color(0xFF1D2838),
+                            fontSize: 15.2,
+                            height: 1.6,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-
-                  /// ✅ Input field with working send button
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[50],
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12.withOpacity(0.05),
-                          blurRadius: 5,
-                          offset: const Offset(0, -1),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "Ask about eco-friendly tips...",
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: isUser ? 0 : 8,
+                            right: isUser ? 8 : 0,
+                            bottom: 4),
+                        child: Text(
+                          message['time'],
+                          style: const TextStyle(
+                            color: Color(0xFF697282),
+                            fontSize: 13,
+                            height: 1.6,
                           ),
                         ),
-                        const SizedBox(width: 8),
-
-                        /// ✅ Send icon works as a button
-                        GestureDetector(
-                          onTap: () {
-                            // 👉 Do your send action here
-                            debugPrint("Message sent!");
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF00C48C),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.send, color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
+
         ],
       ),
     );

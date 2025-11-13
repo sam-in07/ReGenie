@@ -218,24 +218,3 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-/*
-PrimaryButton(
-                  height: 48,
-                  width: double.infinity,
-                  radius: 10,
-                  color: const Color(0xFF00C68E),
-                  title: "Sign In",
-                  // onTap: () {
-                  //   // Handle login tap
-                  //   //HomeScreen
-                  // },
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (ctx) => OnboardingScreen(),
-                      ),
-                    );
-                  },
-                ),
- */
-
