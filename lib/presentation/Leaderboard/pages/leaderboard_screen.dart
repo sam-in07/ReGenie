@@ -31,72 +31,89 @@ class LeaderboardScreen extends StatelessWidget {
       body: Column(
         children: [
           /// ✅ Green rounded header
-          PrimaryHeader(
+          Container(
+            width: double.infinity,
             height: 220,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ✅ Back button + title
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            shape: BoxShape.circle,
+            decoration: const BoxDecoration(
+              color: Color(0xFF00BC7D),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40),
+                bottomRight: Radius.circular(40),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x33000000),
+                  blurRadius: 10,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.arrow_back, color: Colors.white),
                           ),
-                          child: const Icon(Icons.arrow_back, color: Colors.white),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        "Leaderboard",
-                        style: AppTextstyle.textStyle12BlackW500.copyWith(
-                          color: Colors.white,
-                          fontSize: 22,
+                        const SizedBox(width: 12),
+                        const Text(
+                          "Leaderboard",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
-                  // ✅ Top 3 users
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      TopUserCard(
-                        name: topUsers[0]['name'] as String,
-                        points: topUsers[0]['points'] as int,
-                        color: topUsers[0]['color'] as Color,
-                        icon: topUsers[0]['icon'] as IconData,
-                        avatarSize: 60,
-                      ),
-                      TopUserCard(
-                        name: topUsers[1]['name'] as String,
-                        points: topUsers[1]['points'] as int,
-                        color: topUsers[1]['color'] as Color,
-                        icon: topUsers[1]['icon'] as IconData,
-                        isFirstPlace: true, // crown
-                        avatarSize: 80,
-                      ),
-                      TopUserCard(
-                        name: topUsers[2]['name'] as String,
-                        points: topUsers[2]['points'] as int,
-                        color: topUsers[2]['color'] as Color,
-                        icon: topUsers[2]['icon'] as IconData,
-                        avatarSize: 60,
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: const [
+                        TopUserCard(
+                          name: "Liam Forest",
+                          points: 2380,
+                          color: Color(0xFF94D4A2),
+                          icon: Icons.park,
+                          avatarSize: 60,
+                        ),
+                        TopUserCard(
+                          name: "Emma Green",
+                          points: 2450,
+                          color: Color(0xFFF4E17C),
+                          icon: Icons.sunny,
+                          isFirstPlace: true,
+                          avatarSize: 80,
+                        ),
+                        TopUserCard(
+                          name: "Olivia Ocean",
+                          points: 2210,
+                          color: Color(0xFF7FD5F6),
+                          icon: Icons.water_drop,
+                          avatarSize: 60,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+
+
 
           /// ✅ Leaderboard list
           Expanded(

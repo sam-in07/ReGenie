@@ -20,46 +20,56 @@ class TopUserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 🟡 Optional: gradient gold background for 1st place
+    final BoxDecoration avatarDecoration = isFirstPlace
+        ? const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(0xFFFDC700), Color(0xFFF0B000)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      shape: BoxShape.circle,
+    )
+        : BoxDecoration(
+      color: color,
+      shape: BoxShape.circle,
+    );
+
     return SizedBox(
       width: 95,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
         children: [
-          // White half-overlapping box
+          // 🌿 White info box under avatar
           Positioned(
-            top: avatarSize / 2.2,
+            top: avatarSize / 1.6,
             child: Container(
               width: 95,
-              padding: const EdgeInsets.only(top: 32, bottom: 10, left: 6, right: 6),
+              padding: const EdgeInsets.only(
+                top: 38,
+                bottom: 12,
+                left: 6,
+                right: 6,
+              ),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.95),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.08),
-                    blurRadius: 6,
-                    offset: const Offset(0, 3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 12,
+                    offset: const Offset(0, 8),
                   ),
                 ],
               ),
               child: Column(
                 children: [
-                  // Placeholder for your custom image
-                  Container(
-                    height: 26,
-                    width: 26,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.image,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
                   Text(
                     name,
                     textAlign: TextAlign.center,
@@ -69,11 +79,16 @@ class TopUserCard extends StatelessWidget {
                       fontSize: 13,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   Text(
                     "$points pts",
-                    style: const TextStyle(
-                      color: Colors.black54,
-                      fontSize: 12,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: isFirstPlace
+                          ? const Color(0xFF009865)
+                          : Colors.black54,
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -81,25 +96,26 @@ class TopUserCard extends StatelessWidget {
             ),
           ),
 
-          // Circle avatar
-          CircleAvatar(
-            radius: avatarSize / 2,
-            backgroundColor: color,
+          // 🟡 Avatar (with optional gradient)
+          Container(
+            height: avatarSize,
+            width: avatarSize,
+            decoration: avatarDecoration,
             child: Icon(
               icon,
               color: Colors.white,
-              size: avatarSize / 2,
+              size: avatarSize / 2.1,
             ),
           ),
 
-          // Crown for first place
+          // 👑 Crown for 1st place
           if (isFirstPlace)
             Positioned(
-              top: -14,
+              top: -16,
               child: Icon(
                 Icons.emoji_events,
                 color: Colors.amber[700],
-                size: 24,
+                size: 28,
               ),
             ),
         ],
