@@ -6,6 +6,7 @@ import 'package:regenie/core/firebase/firebase_service.dart';
 import 'package:regenie/data/repositories/user_repo_impl.dart';
 import 'package:regenie/domain/usecases/get_daily_challenge.dart';
 import 'package:regenie/presentation/Challenges/Bloc/challenges_cubit.dart';
+import 'package:regenie/presentation/Leaderboard/pages/debug_add_dummy_users.dart';
 import 'package:regenie/presentation/Splash/splash_screen.dart';
 import 'package:regenie/presentation/User/Bloc/user_cubit.dart';
 import 'package:regenie/presentation/User/Pages/login_screen.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // await Firebase.initializeApp();
+  await writeDummyLeaderboard();
   // 🔹 Create base dependencies manually (instead of GetIt)
   final firebaseService = FirebaseService();
   final userRepository = UserRepoImpl(firebaseService);
@@ -45,29 +47,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   AppRoutes.main: (context) => const BottomNavBar(),
-  //
-  //
-  //   return MaterialApp(
-  //     title: 'ReGenie App',
-  //     debugShowCheckedModeBanner: false,
-  //     theme: ThemeData(
-  //       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-  //       useMaterial3: true,
-  //     ),
-  //
-  //     initialRoute: AppRoutes.splash,
-  //     routes: {
-  //       AppRoutes.splash: (context) => const SplashScreen(),
-  //       AppRoutes.login: (context) => const LoginScreen(),
-  //       AppRoutes.register: (context) => const RegistrationScreen(),
-  //       AppRoutes.onboarding: (context) => const OnboardingScreen(),
-  //       AppRoutes.main: (context) => const BottomNavBar(), // Must be a Widget type
-  //     },
-  //   );
-  // }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
