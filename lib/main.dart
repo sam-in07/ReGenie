@@ -17,14 +17,19 @@ import 'package:regenie/presentation/navigation/app_routes.dart';
 import 'package:regenie/presentation/navigation/bottom_nav.dart';
 
 Future<void> main() async {
+
+
   WidgetsFlutterBinding.ensureInitialized();
+  // ✅ Load environment variables first
+  await dotenv.load(fileName: "assets/.env");
+  print("Loaded API Key: ${dotenv.env['OPENAI_API_KEY']?.substring(0, 8)}...");
   // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // await Firebase.initializeApp();
   await writeDummyLeaderboard();
-  await dotenv.load(fileName: ".env");
+
   // 🔹 Create base dependencies manually (instead of GetIt)
   final firebaseService = FirebaseService();
   final userRepository = UserRepoImpl(firebaseService);
