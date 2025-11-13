@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:regenie/core/firebase/firebase_options.dart';
 import 'package:regenie/core/firebase/firebase_service.dart';
 import 'package:regenie/data/repositories/user_repo_impl.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   );
   // await Firebase.initializeApp();
   await writeDummyLeaderboard();
+  await dotenv.load(fileName: ".env");
   // 🔹 Create base dependencies manually (instead of GetIt)
   final firebaseService = FirebaseService();
   final userRepository = UserRepoImpl(firebaseService);

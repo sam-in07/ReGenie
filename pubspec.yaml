@@ -72,6 +72,10 @@ dependencies:
   #maps
   google_maps_flutter: ^2.13.1
   geolocator: ^14.0.2
+  #.env file
+  flutter_dotenv: ^6.0.0
+  #date formate
+  intl: ^0.20.2
 
 
 dev_dependencies:
