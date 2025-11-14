@@ -78,6 +78,9 @@ dependencies:
   intl: ^0.20.2
   #ai
   google_generative_ai: ^0.4.7
+  #ai moto kore asbe
+  flutter_markdown_plus: ^1.0.5
+
 
 
 dev_dependencies:

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:regenie/core/firebase/ai_service.dart';
-import 'package:regenie/presentation/widgets/Button_Cards/figma_header_chat.dart';
+import 'package:regenie/presentation/widgets/Animation/message_bubble.dart';
 
-
+import 'package:regenie/presentation/widgets/primary_header.dart';
 
 
 class ChatScreen extends StatefulWidget {
@@ -14,13 +14,29 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final List<Map<String, dynamic>> _messages = [
-    {
-      'text': "Hi! I'm ReGenie, your AI eco companion. Ask me anything about living sustainably! 🌱",
-      'isUser': false,
-      'time': DateFormat('hh:mm a').format(DateTime.now()),
-    },
-  ];
+  // final List<Map<String, dynamic>> _messages = [
+  //   {
+  //     'text': "Hi! I'm ReGenie, your AI eco companion. Ask me anything about living sustainably! 🌱",
+  //     'isUser': false,
+  //     'time': DateFormat('hh:mm a').format(DateTime.now()),
+  //   },
+  // ];
+  List<Map<String, dynamic>> _messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _messages.add({
+          'text': "Hi! I'm ReGenie, your AI eco companion. Ask me anything about living sustainably! 🌱",
+          'isUser': false,
+          'time': DateFormat('hh:mm a').format(DateTime.now()),
+        });
+      });
+    });
+  }
+
 
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -58,16 +74,18 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _scrollToBottom() {
-    Future.delayed(const Duration(milliseconds: 300), () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 400),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
       }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +94,55 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         children: [
           /// ✅ Green header
-          buildFigmaHeader(context),
+          PrimaryHeader(
+            height: 160,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.arrow_back, color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text("Ask ReGenie",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600)),
+                          Text("Your AI Eco Companion",
+                              style: TextStyle(color: Colors.white70, fontSize: 14)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF8A7CFD), Color(0xFF6D5BFF)],
+                      ),
+                    ),
+                    child: const Icon(Icons.auto_awesome, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
 
           /// ✅ Chat area
           Expanded(
@@ -84,7 +150,10 @@ class _ChatScreenState extends State<ChatScreen> {
               color: const Color(0xFFF1FBF6),
               child: ListView.builder(
                 controller: _scrollController,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.only(top: 50, left: 16, right: 16, bottom: 16),
+
+
+
                 itemCount: _messages.length + (_isLoading ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (_isLoading && index == _messages.length) {
@@ -105,45 +174,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     crossAxisAlignment:
                     isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 6),
-                        padding: const EdgeInsets.all(14),
-                        constraints: const BoxConstraints(maxWidth: 280),
-                        decoration: BoxDecoration(
-                          color: isUser
-                              ? const Color(0xFF00C48C)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x19000000),
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                              spreadRadius: -2,
-                            ),
-                            BoxShadow(
-                              color: Color(0x19000000),
-                              blurRadius: 6,
-                              offset: Offset(0, 4),
-                              spreadRadius: -1,
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          message['text'],
-                          style: TextStyle(
-                            color:
-                            isUser ? Colors.white : const Color(0xFF1D2838),
-                            fontSize: 15.2,
-                            height: 1.6,
-                          ),
-                        ),
+                      MessageBubble(
+                        text: message['text'],
+                        isUser: isUser,
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: isUser ? 0 : 8,
-                            right: isUser ? 8 : 0,
-                            bottom: 4),
+                            left: isUser ? 0 : 8, right: isUser ? 8 : 0, bottom: 4),
                         child: Text(
                           message['time'],
                           style: const TextStyle(
@@ -155,6 +192,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ],
                   );
+
                 },
               ),
             ),
