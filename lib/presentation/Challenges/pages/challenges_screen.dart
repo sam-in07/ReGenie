@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/challenge_card.dart';
 import 'package:regenie/presentation/widgets/app_text_style.dart';
@@ -12,10 +14,11 @@ class ChallengesScreen extends StatefulWidget {
 
 class _ChallengesScreenState extends State<ChallengesScreen> {
   String selectedTab = "Daily";
-
   final List<String> tabs = ["Daily", "Weekly", "Completed"];
 
-  // Challenge data
+  List<String> completedList = []; // 🔥 store completed titles from Firestore
+
+  // Local challenge data
   final List<Map<String, dynamic>> allChallenges = [
     {
       "icon": Icons.water_drop,
@@ -75,13 +78,75 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     },
   ];
 
+  // Load completed challenges from Firestore
+  @override
+  void initState() {
+    super.initState();
+    loadCompletedChallenges();
+  }
+
+  Future<void> loadCompletedChallenges() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get();
+
+    completedList =
+        List<String>.from(snapshot['completedChallenges'] ?? []);
+
+    // Apply to local list
+    for (var challenge in allChallenges) {
+      challenge['completed'] =
+          completedList.contains(challenge['title']);
+    }
+
+    setState(() {});
+  }
+
+  // 🔥 Firestore update for challenge completion
+  Future<void> completeChallengeFirebase(
+      int earnedPoints, String title) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final userDoc =
+        FirebaseFirestore.instance.collection('users').doc(uid);
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final snapshot = await transaction.get(userDoc);
+
+      if (!snapshot.exists) return;
+
+      final currentPoints = snapshot['points'] ?? 0;
+      final completed = snapshot['challengesCompleted'] ?? 0;
+      final completedListFirestore =
+          List<String>.from(snapshot['completedChallenges'] ?? []);
+
+      // prevent repeating
+      if (!completedListFirestore.contains(title)) {
+        completedListFirestore.add(title);
+      }
+
+      final newPoints = currentPoints + earnedPoints;
+      final newLevel = newPoints ~/ 100;
+      final newCompleted = completed + 1;
+
+      transaction.update(userDoc, {
+        'points': newPoints,
+        'level': newLevel,
+        'challengesCompleted': newCompleted,
+        'completedChallenges': completedListFirestore,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Filter challenges based on selected tab
     List<Map<String, dynamic>> displayedChallenges = [];
 
     if (selectedTab == "Completed") {
-      displayedChallenges = allChallenges.where((c) => c["completed"]).toList();
+      displayedChallenges =
+          allChallenges.where((c) => c["completed"]).toList();
     } else {
       displayedChallenges =
           allChallenges.where((c) => c["type"] == selectedTab).toList();
@@ -103,7 +168,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // Toggle buttons
+                // Tabs
                 Container(
                   height: 45,
                   decoration: BoxDecoration(
@@ -119,11 +184,15 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                             setState(() => selectedTab = tab);
                           },
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
+                            duration:
+                                const Duration(milliseconds: 200),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: isSelected ? Colors.white : Colors.transparent,
-                              borderRadius: BorderRadius.circular(25),
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              borderRadius:
+                                  BorderRadius.circular(25),
                             ),
                             child: Text(
                               tab,
@@ -147,24 +216,37 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           // Challenge List
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 20, vertical: 10),
               itemCount: displayedChallenges.length,
               itemBuilder: (context, index) {
                 final challenge = displayedChallenges[index];
+
                 return ChallengeCard(
                   icon: challenge["icon"],
                   title: challenge["title"],
                   subtitle: challenge["subtitle"],
                   points: challenge["points"],
                   completed: challenge["completed"],
-                  onComplete: () {
-                    setState(() {
-                      challenge["completed"] = !challenge["completed"]; // toggle complete
-                    });
+                  onComplete: () async {
+                    if (!challenge["completed"]) {
+                      setState(() => challenge["completed"] = true);
+
+                      await completeChallengeFirebase(
+                        challenge["points"],
+                        challenge["title"],
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Challenge Completed! +${challenge["points"]} points",
+                          ),
+                        ),
+                      );
+                    }
                   },
                 );
-
-
               },
             ),
           ),
@@ -173,5 +255,3 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     );
   }
 }
-
-

@@ -1,19 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:regenie/presentation/widgets/Button_Cards/top_user_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:regenie/presentation/widgets/Button_Cards/top_user_card.dart';
 
 class LeaderboardScreen extends StatelessWidget {
   const LeaderboardScreen({super.key});
 
-  // 🔹 Fetch leaderboard data from Firestore
+  // 🔹 Fetch dummy + real users and merge
   Future<List<Map<String, dynamic>>> _fetchLeaderboard() async {
-    final snapshot = await FirebaseFirestore.instance
+    // Dummy users
+    final dummySnap = await FirebaseFirestore.instance
         .collection('leaderboard')
-        .orderBy('points', descending: true)
         .get();
-    return snapshot.docs.map((doc) => doc.data()).toList();
+
+    // Real users (from users collection)
+    final userSnap = await FirebaseFirestore.instance
+        .collection('users')
+        .get();
+
+    List<Map<String, dynamic>> dummy =
+    dummySnap.docs.map((doc) => doc.data()).toList();
+
+    List<Map<String, dynamic>> realUsers = userSnap.docs.map((doc) {
+      final data = doc.data();
+      data['uid'] = doc.id; // needed for "YOU"
+      return data;
+    }).toList();
+
+    // Merge both lists
+    List<Map<String, dynamic>> all = [...dummy, ...realUsers];
+
+    // Sort by points (highest first)
+    all.sort((a, b) => (b['points'] ?? 0).compareTo(a['points'] ?? 0));
+
+    return all;
   }
 
   @override
@@ -33,10 +53,10 @@ class LeaderboardScreen extends StatelessWidget {
 
           final users = snapshot.data!;
 
-          // 🔹 Take top 3 users
+          // 🔹 Top 3 users
           final topUsers = users.take(3).toList();
 
-          // 🔹 Reorder top 3 visually as [2nd, 1st, 3rd]
+          // 🔹 Reorder top 3 visually: 2nd, 1st, 3rd
           List<Map<String, dynamic>> orderedTop = [];
           if (topUsers.length >= 3) {
             orderedTop = [topUsers[1], topUsers[0], topUsers[2]];
@@ -44,12 +64,12 @@ class LeaderboardScreen extends StatelessWidget {
             orderedTop = topUsers;
           }
 
-          // 🔹 Remaining users
+          // 🔹 Others (from rank 4 and below)
           final others = users.skip(3).toList();
 
           return Column(
             children: [
-              /// ✅ Green rounded header with top 3
+              // 🔥 HEADER with Top 3
               Container(
                 width: double.infinity,
                 height: 220,
@@ -59,13 +79,6 @@ class LeaderboardScreen extends StatelessWidget {
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x33000000),
-                      blurRadius: 10,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: SafeArea(
                   child: Padding(
@@ -73,6 +86,7 @@ class LeaderboardScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Back + Title
                         Row(
                           children: [
                             GestureDetector(
@@ -97,9 +111,10 @@ class LeaderboardScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         const SizedBox(height: 25),
 
-                        /// 🥇🥈🥉 Top 3 users
+                        // 🥇 🥈 🥉 Top 3 Cards
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -123,18 +138,15 @@ class LeaderboardScreen extends StatelessWidget {
                 ),
               ),
 
-              /// ✅ Leaderboard list
+              // 🔥 LIST OF OTHER USERS
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: others.length,
                   itemBuilder: (context, index) {
                     final user = others[index];
-                    final rank = index + 4;
-                    // ✅ Get current logged-in user
-                    final currentUid = FirebaseAuth.instance.currentUser?.uid;
 
-                    // ✅ Check if this row belongs to the current user
+                    final currentUid = FirebaseAuth.instance.currentUser?.uid;
                     final isYou = user['uid'] == currentUid;
 
                     return Container(
@@ -152,9 +164,8 @@ class LeaderboardScreen extends StatelessWidget {
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: isYou
-                              ? Colors.white.withOpacity(0.2)
-                              : Colors.grey[100],
+                          backgroundColor:
+                          isYou ? Colors.white.withOpacity(0.2) : Colors.grey[100],
                           child: Icon(
                             _mapIcon(user['icon']),
                             color: isYou ? Colors.white : Colors.grey[800],
@@ -182,9 +193,8 @@ class LeaderboardScreen extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.trending_up,
-                                  color: isYou
-                                      ? Colors.white
-                                      : const Color(0xFF00C48C),
+                                  color:
+                                  isYou ? Colors.white : const Color(0xFF00C48C),
                                   size: 16,
                                 ),
                                 const SizedBox(width: 4),
@@ -206,10 +216,6 @@ class LeaderboardScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
                       ),
                     );
                   },
@@ -222,7 +228,7 @@ class LeaderboardScreen extends StatelessWidget {
     );
   }
 
-  /// 🧩 Helper — Convert string icon name from Firestore to actual IconData
+  // 🔧 Convert Firestore icon string → IconData
   static IconData _mapIcon(String? iconName) {
     switch (iconName) {
       case 'park':

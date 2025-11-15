@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:regenie/presentation/User/Bloc/user_service.dart';
 import 'package:regenie/presentation/User/Pages/login_screen.dart';
 import 'package:regenie/presentation/navigation/bottom_nav.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
@@ -43,11 +44,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       final uid = userCred.user!.uid;
 
-      // 2️⃣ Store user data in Firestore
+      // 2️⃣ Store user data in Firestore including default stats
       await _firestore.collection('users').doc(uid).set({
         'name': _nameController.text.trim(),
         'email': _emailController.text.trim(),
         'createdAt': FieldValue.serverTimestamp(),
+
+        // Default user stats
+        'updatedAt': FieldValue.serverTimestamp(),
+        'points': 1000,
+        'level': 1,
+        'rank': 11, // You can adjust rank or remove if unnecessary
+        'challengesCompleted': 0,
       });
 
       // 3️⃣ Optional: update display name in Firebase Auth
@@ -76,6 +84,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       setState(() => _loading = false);
     }
   }
+
+
 
 
   @override

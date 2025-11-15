@@ -18,8 +18,14 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
+
   String? _name;
   String? _email;
+
+  int _points = 0;
+  int _rank = 0;
+  int _challengesCompleted = 0;
+
   bool _loading = true;
 
   @override
@@ -33,10 +39,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (user == null) return;
 
     try {
-      final doc = await _firestore.collection('users').doc(user.uid).get();
+      final doc =
+      await _firestore.collection('users').doc(user.uid).get();
+
+      final data = doc.data();
+
       setState(() {
-        _name = doc.data()?['name'] ?? user.displayName ?? 'Eco User';
-        _email = doc.data()?['email'] ?? user.email ?? '';
+        _name = data?['name'] ?? user.displayName ?? 'Eco User';
+        _email = data?['email'] ?? user.email ?? '';
+
+        // Fetch stats
+        _points = data?['points'] ?? 0;
+        _rank = data?['rank'] ?? 0;
+        _challengesCompleted = data?['challengesCompleted'] ?? 0;
+
         _loading = false;
       });
     } catch (_) {
@@ -71,7 +87,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -88,12 +105,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
-                    child: Icon(Icons.eco, color: Color(0xFF00B686), size: 40),
+                    child: Icon(Icons.eco,
+                        color: Color(0xFF00B686), size: 40),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     _name ?? 'Eco User',
-                    style: AppTextstyle.textStyle12BlackW500.copyWith(
+                    style:
+                    AppTextstyle.textStyle12BlackW500.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
@@ -109,17 +128,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+
             const SizedBox(height: 20),
 
-            // 🧾 Stats Cards Row
+            // 🧾 Stats Cards Row (NOW USING FIRESTORE DATA)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                StatCard(title: "Points", value: "1850", icon: Icons.show_chart),
-                StatCard(title: "Rank", value: "#12", icon: Icons.emoji_events),
-                StatCard(title: "Badges", value: "3", icon: Icons.badge),
+              children: [
+                StatCard(
+                  title: "Points",
+                  value: _points.toString(),
+                  icon: Icons.show_chart,
+                ),
+                StatCard(
+                  title: "Rank",
+                  value: "#$_rank",
+                  icon: Icons.emoji_events,
+                ),
+                StatCard(
+                  title: "Badges",
+                  value: _challengesCompleted.toString(),
+                  icon: Icons.badge,
+                ),
               ],
             ),
+
             const SizedBox(height: 25),
 
             // 🏆 Achievements Section
@@ -141,14 +174,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
               children: const [
-                AchievementCard(title: "First Steps", achieved: true),
-                AchievementCard(title: "Eco Warrior", achieved: true),
-                AchievementCard(title: "Week Streak", achieved: true),
-                AchievementCard(title: "Plant Parent", achieved: false),
-                AchievementCard(title: "Eco Master", achieved: false),
-                AchievementCard(title: "Zero Waste", achieved: false),
+                AchievementCard(
+                    title: "First Steps", achieved: true),
+                AchievementCard(
+                    title: "Eco Warrior", achieved: true),
+                AchievementCard(
+                    title: "Week Streak", achieved: true),
+                AchievementCard(
+                    title: "Plant Parent", achieved: false),
+                AchievementCard(
+                    title: "Eco Master", achieved: false),
+                AchievementCard(
+                    title: "Zero Waste", achieved: false),
               ],
             ),
+
             const SizedBox(height: 25),
 
             // ⚙️ Settings Section
@@ -165,22 +205,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             // 🌙 Dark Mode
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       Icon(Icons.wb_sunny_outlined,
-                          color: Colors.black.withOpacity(0.7)),
+                          color:
+                          Colors.black.withOpacity(0.7)),
                       const SizedBox(width: 10),
                       Text(
                         "Dark Mode",
-                        style: AppTextstyle.textStyle16blackW400.copyWith(
+                        style: AppTextstyle
+                            .textStyle16blackW400
+                            .copyWith(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -194,11 +239,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+
             const SizedBox(height: 10),
 
             // ⚙️ App Settings
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 14),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -210,13 +257,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(width: 10),
                   Text(
                     "App Settings",
-                    style: AppTextstyle.textStyle16blackW400.copyWith(
+                    style: AppTextstyle.textStyle16blackW400
+                        .copyWith(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
             ),
+
             const SizedBox(height: 25),
 
             // 🚪 Logout Button

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:regenie/presentation/User/Bloc/user_service.dart';
 import 'package:regenie/presentation/User/Pages/registration_screen.dart';
 import 'package:regenie/presentation/User/Pages/onboarding_screen.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
@@ -15,11 +17,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  bool _loading = false;
-
   Future<void> _login() async {
     setState(() => _loading = true);
 
@@ -29,7 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text.trim(),
       );
 
-      // ✅ Login successful → go to OnboardingScreen
+      // 🚫 No UserService(), no database write here.
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const OnboardingScreen()),
@@ -50,6 +48,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _loading = false);
   }
+
+
+
+  // 📌 AFTER THAT → your controllers go here
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool _loading = false;
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {

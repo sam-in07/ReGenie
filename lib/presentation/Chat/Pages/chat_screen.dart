@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:regenie/core/firebase/ai_service.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/figma_header_chat.dart';
 
-
+import 'package:regenie/presentation/widgets/primary_header.dart';
 
 
 class ChatScreen extends StatefulWidget {

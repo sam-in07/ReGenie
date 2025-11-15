@@ -12,3 +12,14 @@ It connects directly with sustainability and regeneration.
 So ReGenie literally means:
 “A smart, magical helper that helps regenerate the planet.” 🌍💚
 
+
+
+rinbi@gmail.com
+flutter run
+
+samin@gmail.com
+098123
+
+rizbi@gmail.com
+rizb313
+
