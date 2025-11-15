@@ -16,11 +16,13 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
   String selectedTab = "Daily";
   final List<String> tabs = ["Daily", "Weekly", "Completed"];
 
-  List<String> completedList = []; // 🔥 store completed titles from Firestore
+  List<String> completedChallengeIds = [];
 
-  // Local challenge data
+  // ⚡ EACH CHALLENGE HAS A UNIQUE ID
   final List<Map<String, dynamic>> allChallenges = [
+    // ---------------- DAILY CHALLENGES ----------------
     {
+      "id": "d1",
       "icon": Icons.water_drop,
       "title": "Use a Reusable Water Bottle",
       "subtitle": "Skip single-use plastic today",
@@ -29,6 +31,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
       "completed": false,
     },
     {
+      "id": "d2",
       "icon": Icons.directions_bike,
       "title": "Bike or Walk Instead of Driving",
       "subtitle": "Use eco-friendly transportation",
@@ -37,14 +40,16 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
       "completed": false,
     },
     {
+      "id": "d3",
       "icon": Icons.eco,
       "title": "Meatless Monday",
       "subtitle": "Try a plant-based meal today",
       "points": 20,
       "type": "Daily",
-      "completed": true,
+      "completed": false,
     },
     {
+      "id": "d4",
       "icon": Icons.power_off,
       "title": "Unplug Unused Electronics",
       "subtitle": "Save energy by unplugging devices",
@@ -53,6 +58,45 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
       "completed": false,
     },
     {
+      "id": "d5",
+      "icon": Icons.lightbulb,
+      "title": "Turn Off Extra Lights",
+      "subtitle": "Save electricity whenever possible",
+      "points": 10,
+      "type": "Daily",
+      "completed": false,
+    },
+    {
+      "id": "d6",
+      "icon": Icons.shopping_bag,
+      "title": "Use a Reusable Shopping Bag",
+      "subtitle": "Avoid plastic bags today",
+      "points": 15,
+      "type": "Daily",
+      "completed": false,
+    },
+    {
+      "id": "d7",
+      "icon": Icons.restaurant,
+      "title": "No Food Waste Day",
+      "subtitle": "Finish all meals without waste",
+      "points": 20,
+      "type": "Daily",
+      "completed": false,
+    },
+    {
+      "id": "d8",
+      "icon": Icons.local_florist,
+      "title": "Pick Up Litter",
+      "subtitle": "Clean 5 pieces of trash from around you",
+      "points": 20,
+      "type": "Daily",
+      "completed": false,
+    },
+
+    // ---------------- WEEKLY CHALLENGES ----------------
+    {
+      "id": "w1",
       "icon": Icons.park,
       "title": "Plant a Tree",
       "subtitle": "Contribute to reforestation",
@@ -61,94 +105,135 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
       "completed": false,
     },
     {
+      "id": "w2",
       "icon": Icons.recycling,
       "title": "Zero Waste Week",
-      "subtitle": "No single-use items for 7 days",
+      "subtitle": "Avoid any single-use items for 7 days",
       "points": 150,
       "type": "Weekly",
       "completed": false,
     },
     {
+      "id": "w3",
       "icon": Icons.grass,
       "title": "Compost Food Scraps",
       "subtitle": "Start composting this week",
       "points": 50,
       "type": "Weekly",
-      "completed": true,
+      "completed": false,
+    },
+    {
+      "id": "w4",
+      "icon": Icons.clean_hands,
+      "title": "Clean a Public Space",
+      "subtitle": "Join or do a neighborhood clean-up",
+      "points": 120,
+      "type": "Weekly",
+      "completed": false,
+    },
+    {
+      "id": "w5",
+      "icon": Icons.energy_savings_leaf,
+      "title": "Reduce Energy Use",
+      "subtitle": "Lower electricity use for 3 days",
+      "points": 80,
+      "type": "Weekly",
+      "completed": false,
+    },
+    {
+      "id": "w6",
+      "icon": Icons.water,
+      "title": "Save Water Week",
+      "subtitle": "Limit water use for 5 days",
+      "points": 90,
+      "type": "Weekly",
+      "completed": false,
+    },
+    {
+      "id": "w7",
+      "icon": Icons.public,
+      "title": "Avoid Using Plastic",
+      "subtitle": "No plastic bottles for a week",
+      "points": 150,
+      "type": "Weekly",
+      "completed": false,
+    },
+    {
+      "id": "w8",
+      "icon": Icons.car_crash,
+      "title": "Avoid Car Usage",
+      "subtitle": "No car use for 3 days",
+      "points": 70,
+      "type": "Weekly",
+      "completed": false,
     },
   ];
 
-  // Load completed challenges from Firestore
   @override
   void initState() {
     super.initState();
     loadCompletedChallenges();
   }
 
+  /// 🔥 Load completed challenge IDs from Firestore
   Future<void> loadCompletedChallenges() async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get();
 
-    completedList =
-        List<String>.from(snapshot['completedChallenges'] ?? []);
+    final snapshot =
+    await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-    // Apply to local list
+    completedChallengeIds =
+    List<String>.from(snapshot['completedChallenges'] ?? []);
+
     for (var challenge in allChallenges) {
       challenge['completed'] =
-          completedList.contains(challenge['title']);
+          completedChallengeIds.contains(challenge['id']);
     }
 
     setState(() {});
   }
 
-  // 🔥 Firestore update for challenge completion
-  Future<void> completeChallengeFirebase(
-      int earnedPoints, String title) async {
+  /// 🔥 Complete challenge and update Firestore
+  Future<void> completeChallenge(int points, String challengeId) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;
-    final userDoc =
-        FirebaseFirestore.instance.collection('users').doc(uid);
+    final doc = FirebaseFirestore.instance.collection('users').doc(uid);
 
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final snapshot = await transaction.get(userDoc);
+    await FirebaseFirestore.instance.runTransaction((tx) async {
+      final snap = await tx.get(doc);
+      if (!snap.exists) return;
 
-      if (!snapshot.exists) return;
+      final currentPoints = snap['points'] ?? 0;
+      final completedCount = snap['challengesCompleted'] ?? 0;
 
-      final currentPoints = snapshot['points'] ?? 0;
-      final completed = snapshot['challengesCompleted'] ?? 0;
-      final completedListFirestore =
-          List<String>.from(snapshot['completedChallenges'] ?? []);
+      List<String> completedIds =
+      List<String>.from(snap['completedChallenges'] ?? []);
 
-      // prevent repeating
-      if (!completedListFirestore.contains(title)) {
-        completedListFirestore.add(title);
+      if (!completedIds.contains(challengeId)) {
+        completedIds.add(challengeId);
       }
 
-      final newPoints = currentPoints + earnedPoints;
-      final newLevel = newPoints ~/ 100;
-      final newCompleted = completed + 1;
+      final newPoints = currentPoints + points;
+      final newLevel = (newPoints ~/ 100) + 1;
 
-      transaction.update(userDoc, {
-        'points': newPoints,
-        'level': newLevel,
-        'challengesCompleted': newCompleted,
-        'completedChallenges': completedListFirestore,
-        'updatedAt': FieldValue.serverTimestamp(),
+      tx.update(doc, {
+        "points": newPoints,
+        "level": newLevel,
+        "completedChallenges": completedIds,
+        "challengesCompleted": completedCount + 1,
+        "updatedAt": FieldValue.serverTimestamp(),
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> displayedChallenges = [];
+    List<Map<String, dynamic>> visibleChallenges = [];
 
     if (selectedTab == "Completed") {
-      displayedChallenges =
-          allChallenges.where((c) => c["completed"]).toList();
+      visibleChallenges =
+          allChallenges.where((c) => c["completed"] == true).toList();
     } else {
-      displayedChallenges =
+      visibleChallenges =
           allChallenges.where((c) => c["type"] == selectedTab).toList();
     }
 
@@ -162,13 +247,10 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 30),
-                Text(
-                  "Challenges",
-                  style: AppTextstyle.textStyle22WideW300,
-                ),
+                Text("Challenges", style: AppTextstyle.textStyle22WideW300),
                 const SizedBox(height: 20),
 
-                // Tabs
+                // Tabs UI
                 Container(
                   height: 45,
                   decoration: BoxDecoration(
@@ -180,19 +262,14 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                       final isSelected = tab == selectedTab;
                       return Expanded(
                         child: GestureDetector(
-                          onTap: () {
-                            setState(() => selectedTab = tab);
-                          },
+                          onTap: () => setState(() => selectedTab = tab),
                           child: AnimatedContainer(
-                            duration:
-                                const Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 200),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: isSelected
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              borderRadius:
-                                  BorderRadius.circular(25),
+                              color:
+                              isSelected ? Colors.white : Colors.transparent,
+                              borderRadius: BorderRadius.circular(25),
                             ),
                             child: Text(
                               tab,
@@ -216,31 +293,30 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           // Challenge List
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 20, vertical: 10),
-              itemCount: displayedChallenges.length,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              itemCount: visibleChallenges.length,
               itemBuilder: (context, index) {
-                final challenge = displayedChallenges[index];
+                final ch = visibleChallenges[index];
 
                 return ChallengeCard(
-                  icon: challenge["icon"],
-                  title: challenge["title"],
-                  subtitle: challenge["subtitle"],
-                  points: challenge["points"],
-                  completed: challenge["completed"],
+                  icon: ch["icon"],
+                  title: ch["title"],
+                  subtitle: ch["subtitle"],
+                  points: ch["points"],
+                  completed: ch["completed"],
                   onComplete: () async {
-                    if (!challenge["completed"]) {
-                      setState(() => challenge["completed"] = true);
+                    if (!ch["completed"]) {
+                      setState(() => ch["completed"] = true);
 
-                      await completeChallengeFirebase(
-                        challenge["points"],
-                        challenge["title"],
+                      await completeChallenge(
+                        ch["points"],
+                        ch["id"],
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            "Challenge Completed! +${challenge["points"]} points",
+                            "+${ch["points"]} points earned!",
                           ),
                         ),
                       );
