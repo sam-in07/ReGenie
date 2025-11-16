@@ -5,7 +5,7 @@ import 'package:regenie/presentation/widgets/colors.dart';
 class StatCard extends StatelessWidget {
   final String title;
   final String value;
-  final IconData icon;
+  final Widget icon;
 
   const StatCard({
     super.key,
@@ -16,12 +16,14 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      width: 117,
+      height: 158,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16), // matches your design
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -31,23 +33,20 @@ class StatCard extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: AppColors.appButtonColor, size: 26),
-            const SizedBox(height: 8),
+            SizedBox(width: 26, height: 26, child: icon),
+            const SizedBox(height: 12),
             Text(
               value,
-              style: AppTextstyle.textStyle12BlackW500.copyWith(
-                fontWeight: FontWeight.w700,
-                color: Colors.black87,
-              ),
+              style: AppTextstyle.textStyle16darkblackW600,
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 6),
             Text(
               title,
-              style: AppTextstyle.textStyle16blackW400.copyWith(
-                color: Colors.black54,
-                fontSize: 14,
-              ),
+              style: AppTextstyle.textStyle16greyW400,
+              textAlign: TextAlign.center,
             ),
           ],
         ),

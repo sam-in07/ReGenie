@@ -44,7 +44,7 @@ class AchievementCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             title,
-            style: AppTextstyle.textStyle16blackW400.copyWith(
+            style: AppTextstyle.textStyle16darkblackW400.copyWith(
               fontWeight: FontWeight.w500,
               fontSize: 13,
               color: achieved ? Colors.black87 : Colors.grey,

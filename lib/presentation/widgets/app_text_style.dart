@@ -71,6 +71,29 @@ class AppTextstyle {
     fontWeight: FontWeight.w600,
 
   );
+  static TextStyle textStyle20darkblackW600 = GoogleFonts.poppins(
+    fontSize: 20,
+    color: Color(0xff1e2939),
+    fontWeight: FontWeight.w600,
 
+  );
+  static TextStyle textStyle16darkblackW600 = GoogleFonts.poppins(
+    fontSize: 16,
+    color: Color(0xff1e2939),
+    fontWeight: FontWeight.w600,
+
+  );
+  static TextStyle textStyle16darkblackW400 = GoogleFonts.poppins(
+    fontSize: 16,
+    color: Color(0xff4a5565),
+    fontWeight: FontWeight.w400,
+
+  );
+
+  static TextStyle textStyle16whiteW400 = GoogleFonts.inter(
+    fontSize: 16,
+    color: Color(0xfff1f0f0),
+    fontWeight: FontWeight.w400,
+  );
 
 }
