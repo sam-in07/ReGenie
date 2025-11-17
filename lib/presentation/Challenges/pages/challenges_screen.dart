@@ -238,19 +238,45 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFD1F1DD),
       body: Column(
         children: [
           PrimaryHeader(
-            height: 170,
+            height: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 30),
-                Text("Challenges", style: AppTextstyle.textStyle22WideW300),
+
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.25),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/icons/back_btn.png",
+                            width: 20,
+                            height: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text("Challenges", style: AppTextstyle.textStyle22WideW300),
+                  ],
+                ),
+
                 const SizedBox(height: 20),
 
-                // Tabs UI
+                // TABS SECTION
                 Container(
                   height: 45,
                   decoration: BoxDecoration(
@@ -267,8 +293,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
                             duration: const Duration(milliseconds: 200),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color:
-                              isSelected ? Colors.white : Colors.transparent,
+                              color: isSelected ? Colors.white : Colors.transparent,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: Text(
@@ -289,6 +314,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
               ],
             ),
           ),
+
 
           // Challenge List
           Expanded(

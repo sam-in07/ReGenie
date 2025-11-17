@@ -9,7 +9,7 @@ class PrimaryHeader extends StatelessWidget {
   const PrimaryHeader({
     super.key,
     required this.child,
-    this.height = 180,
+    this.height = 200,
     this.borderRadius = const BorderRadius.only(
       bottomLeft: Radius.circular(30),
       bottomRight: Radius.circular(30),

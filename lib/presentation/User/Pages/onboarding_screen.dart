@@ -3,6 +3,7 @@ import 'package:regenie/presentation/navigation/app_routes.dart';
 
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/Home/Pages/home_screen.dart';
+import 'package:regenie/presentation/widgets/Animation/AnimatedOnboardLogo.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/primary_button.dart';
 
 import 'package:regenie/presentation/widgets/app_text_style.dart';
@@ -74,16 +75,55 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Column(
           children: [
             // Skip button
-            Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
-                onPressed: _goToHome,
-                child: const Text(
-                  "Skip",
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
+
+            // Align(
+            //   alignment: Alignment.topRight,
+            //   child: TextButton(
+            //     onPressed: _goToHome,
+            //     child: const Text(
+            //       "Skip",
+            //       style: TextStyle(color: Colors.grey, fontSize: 16),
+            //     ),
+            //   ),
+            // ),
+
+            // ... inside your Column children:
+          
+          // ➡️ 1. HEADER ROW (Logo and Skip Button)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // ReGenie Logo (Leaf Image and Text)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/images/onbo_leaf.png', // ADDED YOUR LEAF ASSET HERE
+                      height: 80,
+                      width: 80,
+                      // Apply the green color you used in the video
+                      color: const Color.fromARGB(255, 4, 116, 88), 
+                    ),
+                    
+                  ],
                 ),
-              ),
+                
+                // Skip Button (Your original code adapted)
+                TextButton(
+                  onPressed: _goToHome,
+                  child: const Text(
+                    "Skip",
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
+                ),
+              ],
             ),
+          ),
+          
+          // ➡️ 2. PageView (Your original code continues below)
+          
 
             // PageView (slides)
             Expanded(
@@ -101,11 +141,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
-                        Image.asset(
-                          page['image']!,
-                          height: 250,
-                          fit: BoxFit.contain,
-                        ),
+                        // Image.asset(
+                        //   page['image']!,
+                        //   height: 250,
+                        //   fit: BoxFit.contain,
+                        // ),
+                        // RotatingLogo(imagePath: page['image']!, size: 250),
+                        AnimatedOnboardLogo(imagePath: page['image']!, size: 250),
+
                         const SizedBox(height: 30),
 
 

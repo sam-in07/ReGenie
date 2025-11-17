@@ -4,23 +4,22 @@ class SmallCard extends StatelessWidget {
   final Color color;
   final String title;
   final String subtitle;
-  final IconData icon;
+  final String iconPath; // <-- icon as image asset
 
   const SmallCard({
     super.key,
     required this.color,
     required this.title,
     required this.subtitle,
-    required this.icon,
+    required this.iconPath,
   });
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
     return Container(
-      width: width * 0.4,
-      padding: EdgeInsets.all(width * 0.05),
+      width: 185,   // fixed size as you said
+      height: 195,  // fixed size
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(16),
@@ -35,23 +34,32 @@ class SmallCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: width * 0.07, color: const Color(0xFF1D2838)),
-          SizedBox(height: width * 0.06),
+          // 🌟 Replace Icon() with your asset image
+          Image.asset(
+            iconPath,
+            width: 48,   // adjust icon size
+            height: 48,
+          ),
+
+          const SizedBox(height: 26),
+
           Text(
             title,
-            style: TextStyle(
-              color: const Color(0xFF1D2838),
-              fontSize: width * 0.04,
+            style: const TextStyle(
+              color: Color(0xFF1D2838),
+              fontSize: 18,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: width * 0.02),
+
+          const SizedBox(height: 30),
+
           Text(
             subtitle,
-            style: TextStyle(
-              color: const Color(0xFF697282),
-              fontSize: width * 0.035,
+            style: const TextStyle(
+              color: Color(0xFF697282),
+              fontSize: 14,
               fontFamily: 'Inter',
             ),
           ),

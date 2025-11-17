@@ -17,8 +17,8 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 117,
-      height: 158,
+      width: 140,
+      height: 178,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
@@ -36,13 +36,13 @@ class StatCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(width: 26, height: 26, child: icon),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
             Text(
               value,
               style: AppTextstyle.textStyle16darkblackW600,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 12 ),
             Text(
               title,
               style: AppTextstyle.textStyle16greyW400,
