@@ -95,7 +95,7 @@ class LeaderboardScreen extends StatelessWidget {
     // ⭐ CORE FIX: Using a StreamBuilder that constantly triggers the merge logic
     // We create a stream that yields the full merged and sorted list whenever the 'users' collection changes.
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFD1F1DD),
       body: StreamBuilder<QuerySnapshot>( // Listen to the 'users' collection
         stream: FirebaseFirestore.instance.collection('users').snapshots(),
         builder: (context, userSnapshot) {

@@ -32,8 +32,8 @@ class _ShakingLogoState extends State<ShakingLogo>
     return AnimatedBuilder(
       animation: _controller,
       child: SizedBox(
-        width: 72,
-        height: 72,
+        width: 85,
+        height: 85,
         child: Image.asset('assets/images/logo.png'),
       ),
       builder: (context, child) {
