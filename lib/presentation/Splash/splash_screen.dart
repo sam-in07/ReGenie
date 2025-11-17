@@ -9,25 +9,31 @@ import 'package:regenie/presentation/widgets/app_text_style.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
 
+
   @override
   void initState() {
     super.initState();
 
+
     // Simple fade-in animation for entire content
-    _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    _fadeAnimation =
-        CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
+
 
     // Navigate to login after 3 seconds
     Timer(const Duration(seconds: 6), () {
@@ -38,17 +44,20 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
+
 
     return Scaffold(
       backgroundColor: const Color(0xFFD1F1DD),
@@ -58,7 +67,6 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               const ShakingLogo(),
               SizedBox(height: height * 0.02),
               Text(
@@ -72,6 +80,12 @@ class _SplashScreenState extends State<SplashScreen>
                 textAlign: TextAlign.center,
                 style: AppTextstyle.textStyle15BlackW700,
               ),
+              SizedBox(height: height * 0.03),
+              Text(
+                AppText.weT,
+                textAlign: TextAlign.center,
+                style: AppTextstyle.textStylegreeny13W800,
+              ),
             ],
           ),
         ),
@@ -79,3 +93,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+
+
+

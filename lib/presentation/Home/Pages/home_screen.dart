@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:regenie/presentation/Challenges/pages/challenges_screen.dart';
 import 'package:regenie/presentation/Chat/Pages/chat_screen.dart';
+import 'package:regenie/presentation/Home/Pages/ReminderScreen.dart';
+import 'package:regenie/presentation/Home/Pages/progress_screen.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/small_card.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,10 @@ class HomeScreen extends StatelessWidget {
     final width = size.width;
     final height = size.height;
 
-
     final uid = FirebaseAuth.instance.currentUser!.uid;
-
 
     return Scaffold(
       backgroundColor: const Color(0xFFD1F1DD),
-
 
       // 🔥 STREAM USER DATA FROM FIRESTORE LIVE
       body: StreamBuilder<DocumentSnapshot>(
@@ -35,21 +32,17 @@ class HomeScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-
           final data = snapshot.data!.data() as Map<String, dynamic>?;
-
 
           if (data == null) {
             return const Center(child: Text("User data not found"));
           }
-
 
           final String name = data['name'] ?? "User";
           final int points = data['points'] ?? 0;
           final int level = data['level'] ?? 1;
           final int rank = data['rank'] ?? 0;
           final int challenges = data['challengesCompleted'] ?? 0;
-
 
           return SingleChildScrollView(
             child: Column(
@@ -75,10 +68,8 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
 
-
                         children: [
                           const SizedBox(height: 48),
-
 
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,19 +99,18 @@ class HomeScreen extends StatelessWidget {
                                 ],
                               ),
 
-                              const SizedBox(width:290), // space between texts and image
-
+                              const SizedBox(
+                                width: 290,
+                              ), // space between texts and image
                               // Your image
                               Image.asset(
                                 "assets/images/leaf_btn.png",
-                                width: 48,   // adjust size as needed
+                                width: 48, // adjust size as needed
                                 height: 48,
                               ),
                             ],
                           ),
                           const SizedBox(height: 35),
-
-
 
                           // Eco Points Card
                           Container(
@@ -139,15 +129,15 @@ class HomeScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Top row: points and level
-                                SizedBox(height: 24,),
+                                SizedBox(height: 24),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Your Eco Points',
@@ -200,14 +190,11 @@ class HomeScreen extends StatelessWidget {
                                         width: 30,
                                         height: 30,
                                       ),
-
                                     ),
                                   ],
                                 ),
 
-
                                 const SizedBox(height: 26),
-
 
                                 // Gradient progress bar
                                 Stack(
@@ -222,7 +209,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     Container(
                                       width:
-                                          ((points % 100) / 100) *
+                                      ((points % 100) / 100) *
                                           MediaQuery.of(context).size.width *
                                           0.85,
                                       height: 8,
@@ -239,9 +226,7 @@ class HomeScreen extends StatelessWidget {
                                   ],
                                 ),
 
-
                                 const SizedBox(height: 26),
-
 
                                 // Points to next level
                                 Text(
@@ -262,7 +247,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
 
                 // 🔥 Wrap everything below in padding
                 Padding(
@@ -290,7 +274,9 @@ class HomeScreen extends StatelessWidget {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => ChallengesScreen()),
+                                MaterialPageRoute(
+                                  builder: (context) => ChallengesScreen(),
+                                ),
                               );
                             },
                             child: Text(
@@ -302,13 +288,10 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-
                         ],
                       ),
 
-
                       SizedBox(height: height * 0.02),
-
 
                       // 💧 Challenge Card
                       Container(
@@ -340,11 +323,11 @@ class HomeScreen extends StatelessWidget {
                               ),
                               child: Image.asset(
                                 'assets/icons/chall_icon.png',
-                                width: 24,   // adjust size as needed
+                                width: 24, // adjust size as needed
                                 height: 24,
-                                color: Colors.white,   // optional: applies tint color if image is monochrome
+                                color: Colors
+                                    .white, // optional: applies tint color if image is monochrome
                               ),
-
                             ),
                             SizedBox(width: width * 0.04),
                             Expanded(
@@ -388,19 +371,40 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-
                       SizedBox(height: height * 0.035),
 
-
                       // 🏆 Two Info Cards
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     SmallCard(
+                      //       color: const Color(0xFFFFFFFF),
+                      //       title: "Challenges",
+                      //       subtitle: "$challenges completed",
+                      //       iconPath: "assets/icons/chall_green.png",
+                      //     ),
+                      //     SmallCard(
+                      //       color: const Color(0xFFFFFFFF),
+                      //       title: "Leaderboard",
+                      //       subtitle: "Rank #$rank",
+                      //       iconPath: "assets/icons/incri_icon.png",
+                      //     ),
+                      //   ],
+                      // ),
+                      const SizedBox(height: 16),
+                      GridView.count(
+                        crossAxisCount: 2, // 2 boxes per row
+                        shrinkWrap: true, // important inside Column/ScrollView
+                        physics:
+                        NeverScrollableScrollPhysics(), // prevent scrolling
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
                         children: [
                           SmallCard(
                             color: const Color(0xFFFFFFFF),
                             title: "Challenges",
                             subtitle: "$challenges completed",
-                            iconPath:  "assets/icons/chall_green.png",
+                            iconPath: "assets/icons/chall_green.png",
                           ),
                           SmallCard(
                             color: const Color(0xFFFFFFFF),
@@ -408,12 +412,46 @@ class HomeScreen extends StatelessWidget {
                             subtitle: "Rank #$rank",
                             iconPath: "assets/icons/incri_icon.png",
                           ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                  const ProgressTrackerScreen(),
+                                ),
+                              );
+                            },
+                            child: SmallCard(
+                              color: const Color(0xFFFFFFFF),
+                              title: "Progress",
+                              subtitle: "achievements unlocked",
+                              iconPath: "assets/icons/progress.png",
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                  const Reminderscreen(),
+                                ),
+                              );
+                            },
+                            child: SmallCard(
+                              color: const Color(0xFFFFFFFF),
+                              title: "Notification",
+                              // subtitle: "$goals completed",
+                              subtitle: "Daily Tips",
+                              iconPath: "assets/icons/reminder.png",
+                            ),
+                          ),
+
                         ],
                       ),
 
-
                       SizedBox(height: height * 0.04),
-
 
                       // 💬 Ask ReGenie Section
                       Text(
@@ -426,9 +464,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-
                       SizedBox(height: height * 0.02),
-
 
                       Container(
                         width: double.infinity,
@@ -496,7 +532,9 @@ class HomeScreen extends StatelessWidget {
                                       onTap: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => ChatScreen()),
+                                          MaterialPageRoute(
+                                            builder: (context) => ChatScreen(),
+                                          ),
                                         );
                                       },
                                       child: Text(
@@ -510,7 +548,6 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
@@ -528,6 +565,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -14,6 +14,7 @@ class AppRoutes {
   static const register = '/register';
   static const onboarding = '/onboarding';
   static const main = '/main'; // ✅ matches main.dart
+  static const reminders = '/reminders';
 
 
 

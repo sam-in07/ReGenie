@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; // Add this line
 
+
 class AppTextstyle {
   static const textStyle12BlackW500 = TextStyle(
     color: Colors.black, // Now Colors.white will be recognized
@@ -41,6 +42,7 @@ class AppTextstyle {
     fontWeight: FontWeight.w300,
   );
 
+
   // Correct
   static TextStyle textStyle16blackW400 = GoogleFonts.jacquesFrancois(
     fontSize: 16,
@@ -65,35 +67,40 @@ class AppTextstyle {
     fontWeight: FontWeight.w600,
   );
 
+
   static TextStyle textStyle24darkblackW600 = GoogleFonts.poppins(
     fontSize: 24,
     color: Color(0xff1e2939),
     fontWeight: FontWeight.w600,
-
   );
   static TextStyle textStyle20darkblackW600 = GoogleFonts.poppins(
     fontSize: 20,
     color: Color(0xff1e2939),
     fontWeight: FontWeight.w600,
-
   );
   static TextStyle textStyle16darkblackW600 = GoogleFonts.poppins(
     fontSize: 16,
     color: Color(0xff1e2939),
     fontWeight: FontWeight.w600,
-
   );
   static TextStyle textStyle16darkblackW400 = GoogleFonts.poppins(
     fontSize: 16,
     color: Color(0xff4a5565),
     fontWeight: FontWeight.w400,
-
   );
+
 
   static TextStyle textStyle16whiteW400 = GoogleFonts.inter(
     fontSize: 16,
     color: Color(0xfff1f0f0),
     fontWeight: FontWeight.w400,
   );
-
+  static TextStyle textStylegreeny13W800 = GoogleFonts.poppins(
+    fontSize: 13,
+    color: Color.fromARGB(255, 21, 153, 61),
+    fontWeight: FontWeight.w800,
+  );
 }
+
+
+
