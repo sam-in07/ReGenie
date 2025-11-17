@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:regenie/presentation/widgets/Reminder/reminder.dart';
+import 'package:regenie/presentation/widgets/Reminder/reminder_item.dart';
+import 'package:regenie/presentation/widgets/colors.dart';
+import 'package:regenie/presentation/widgets/Reminder/info_card.dart';
+import 'package:regenie/presentation/navigation/bottom_nav.dart'; // Import BottomNavBar
+import 'package:regenie/presentation/widgets/Button_Cards/summary_card.dart';
 
 class ProgressTrackerScreen extends StatelessWidget {
   const ProgressTrackerScreen({super.key});
@@ -30,7 +36,7 @@ class ProgressTrackerScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top Header
+              // Top Header - Row for back button and title
               Row(
                 children: [
                   GestureDetector(
@@ -60,7 +66,7 @@ class ProgressTrackerScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // Top summary cards container
+              // Top summary cards container with the green background
               Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 20,
@@ -70,32 +76,37 @@ class ProgressTrackerScreen extends StatelessWidget {
                   color: Colors.green.shade600,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    _SummaryCard(
-                      icon: Icons.trending_up,
-                      title: "$thisWeek",
-                      subtitle: "This Week",
-                      iconColor: Colors.green.shade300,
-                      bgColor: Colors.white,
-                      textColor: Colors.black87,
-                    ),
-                    _SummaryCard(
-                      icon: Icons.calendar_today,
-                      title: avgPerDay.toStringAsFixed(1),
-                      subtitle: "Avg/Day",
-                      iconColor: Colors.blue.shade400,
-                      bgColor: Colors.white,
-                      textColor: Colors.black87,
-                    ),
-                    _SummaryCard(
-                      icon: Icons.local_fire_department,
-                      title: "$dayStreak",
-                      subtitle: "Day Streak",
-                      iconColor: Colors.orange.shade400,
-                      bgColor: Colors.white,
-                      textColor: Colors.black87,
+                    // Summary Cards inside a Row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SummaryCard(
+                          icon: Icons.trending_up,
+                          title: "$thisWeek",
+                          subtitle: "This Week",
+                          iconColor: Colors.green.shade300,
+                          bgColor: Colors.white,
+                          textColor: Colors.black87,
+                        ),
+                        SummaryCard(
+                          icon: Icons.calendar_today,
+                          title: avgPerDay.toStringAsFixed(1),
+                          subtitle: "Avg/Day",
+                          iconColor: Colors.blue.shade400,
+                          bgColor: Colors.white,
+                          textColor: Colors.black87,
+                        ),
+                        SummaryCard(
+                          icon: Icons.local_fire_department,
+                          title: "$dayStreak",
+                          subtitle: "Day Streak",
+                          iconColor: Colors.orange.shade400,
+                          bgColor: Colors.white,
+                          textColor: Colors.black87,
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -121,118 +132,10 @@ class ProgressTrackerScreen extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: CustomPaint(
-                  painter: LineChartPainter(weeklyEcoActions),
+                  painter: LineChartPainter([4, 6, 3, 8, 5, 7, 9]), // Sample data
                   child: Container(),
                 ),
               ),
-
-              const SizedBox(height: 30),
-
-              // Monthly Trend - bar chart placeholder
-              const Text(
-                "Monthly Trend",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                height: 140,
-                decoration: BoxDecoration(
-                  color: Colors.green.shade50,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 24,
-                ),
-                child: CustomPaint(
-                  painter: BarChartPainter(monthlyTrend),
-                  child: Container(),
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              // Action Breakdown List
-              const Text(
-                "Action Breakdown",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              ...actions.map((action) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: _ActionBreakdownTile(action: action),
-                );
-              }).toList(),
-
-              const SizedBox(height: 40),
-
-              // Bottom message box
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 24,
-                  horizontal: 20,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade100,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade400,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.emoji_events,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: RichText(
-                        text: const TextSpan(
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontFamily: 'Poppins',
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "Outstanding Progress! 🎉\n",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            TextSpan(
-                              text:
-                              "You've completed 42 eco-friendly actions this month. Keep up the amazing work!",
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -241,59 +144,7 @@ class ProgressTrackerScreen extends StatelessWidget {
   }
 }
 
-class _SummaryCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color iconColor;
-  final Color bgColor;
-  final Color textColor;
 
-  const _SummaryCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.iconColor,
-    required this.bgColor,
-    required this.textColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 88,
-      height: 104,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: iconColor, size: 28),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: textColor,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-              color: textColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class ActionData {
   final String title;
@@ -452,4 +303,58 @@ class BarChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class SummaryCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color iconColor;
+  final Color bgColor;
+  final Color textColor;
+
+  const SummaryCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.iconColor,
+    required this.bgColor,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 88,
+      height: 104,
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: iconColor, size: 28),
+          const SizedBox(height: 8),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              color: textColor,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: textColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
