@@ -80,6 +80,8 @@ dependencies:
   google_generative_ai: ^0.4.7
   #ai moto kore asbe
   flutter_markdown_plus: ^1.0.5
+  #fl chart
+  fl_chart: ^1.1.1
 
 
 

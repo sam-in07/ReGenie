@@ -1,4 +1,6 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:regenie/presentation/widgets/Button_Cards/monthly_bar_trend.dart';
 import 'package:regenie/presentation/widgets/Reminder/reminder.dart';
 import 'package:regenie/presentation/widgets/Reminder/reminder_item.dart';
 import 'package:regenie/presentation/widgets/colors.dart';
@@ -29,92 +31,109 @@ class ProgressTrackerScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Top Header - Row for back button and title
-              Row(
+  backgroundColor: Colors.white,
+  body: SingleChildScrollView(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        // ---------- GREEN HEADER CONTAINER ----------
+        Container(
+          width: double.infinity,
+          height: 400,
+          decoration: const BoxDecoration(
+            color: Color(0xFF00BC7D),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(40),
+              bottomRight: Radius.circular(40),
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade600,
-                        shape: BoxShape.circle,
+
+                  const SizedBox(height: 48),
+
+                  // HEADER
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.25),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: Colors.white,
-                        size: 20,
+                      const SizedBox(width: 12),
+                      const Text(
+                        "Progress Tracker",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontFamily: "Poppins",
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 12),
-                  const Text(
-                    "Progress Tracker",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+
+                  const SizedBox(height: 28),
+
+                  // Summary Cards (inside green header)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SummaryCard(
+                        icon: Icons.trending_up,
+                        title: "$thisWeek",
+                        subtitle: "This Week",
+                        iconColor: Colors.green.shade300,
+                        bgColor: Colors.white,
+                        textColor: Colors.black87,
+                      ),
+                      SummaryCard(
+                        icon: Icons.calendar_today,
+                        title: avgPerDay.toStringAsFixed(1),
+                        subtitle: "Avg/Day",
+                        iconColor: Colors.blue.shade400,
+                        bgColor: Colors.white,
+                        textColor: Colors.black87,
+                      ),
+                      SummaryCard(
+                        icon: Icons.local_fire_department,
+                        title: "$dayStreak",
+                        subtitle: "Day Streak",
+                        iconColor: Colors.orange.shade400,
+                        bgColor: Colors.white,
+                        textColor: Colors.black87,
+                      ),
+                    ],
                   ),
                 ],
               ),
+            ),
+          ),
+        ),
 
-              const SizedBox(height: 24),
+        // ---------- MAIN CONTENT BELOW GREEN HEADER ----------
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-              // Top summary cards container with the green background
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 16,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade600,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    // Summary Cards inside a Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SummaryCard(
-                          icon: Icons.trending_up,
-                          title: "$thisWeek",
-                          subtitle: "This Week",
-                          iconColor: Colors.green.shade300,
-                          bgColor: Colors.white,
-                          textColor: Colors.black87,
-                        ),
-                        SummaryCard(
-                          icon: Icons.calendar_today,
-                          title: avgPerDay.toStringAsFixed(1),
-                          subtitle: "Avg/Day",
-                          iconColor: Colors.blue.shade400,
-                          bgColor: Colors.white,
-                          textColor: Colors.black87,
-                        ),
-                        SummaryCard(
-                          icon: Icons.local_fire_department,
-                          title: "$dayStreak",
-                          subtitle: "Day Streak",
-                          iconColor: Colors.orange.shade400,
-                          bgColor: Colors.white,
-                          textColor: Colors.black87,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              // Eco Actions This Week - line chart placeholder
+              // Eco Actions This Week
               const Text(
                 "Eco Actions This Week",
                 style: TextStyle(
@@ -124,6 +143,7 @@ class ProgressTrackerScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
+
               Container(
                 height: 140,
                 decoration: BoxDecoration(
@@ -132,15 +152,205 @@ class ProgressTrackerScreen extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: CustomPaint(
-                  painter: LineChartPainter([4, 6, 3, 8, 5, 7, 9]), // Sample data
-                  child: Container(),
+                  painter: LineChartPainter(weeklyEcoActions),
                 ),
               ),
+
+              const SizedBox(height: 30),
+
+              // Monthly Trend
+              const Text(
+                "Monthly Trend",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+            Container(
+              height: 180,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(16),
+              child: LineChart(
+                LineChartData(
+                  minX: 0,
+                  maxX: 6,
+                  minY: 0,
+                  maxY: 12,
+
+                  // GRID
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: true,
+                    getDrawingHorizontalLine: (_) =>
+                        FlLine(color: Colors.grey.shade300, strokeWidth: 1),
+                    getDrawingVerticalLine: (_) =>
+                        FlLine(color: Colors.grey.shade300, strokeWidth: 1),
+                  ),
+
+                  // BORDER
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.all(color: Colors.grey.shade400, width: 1),
+                  ),
+
+                  // LABELS
+                  titlesData: FlTitlesData(
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: 1,
+                        getTitlesWidget: (value, _) {
+                          const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+                          return Text(
+                            labels[value.toInt()],
+                            style: const TextStyle(fontSize: 12),
+                          );
+                        },
+                      ),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: 3,
+                        reservedSize: 28,
+                        getTitlesWidget: (value, _) => Text(
+                          value.toInt().toString(),
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ),
+                    ),
+                    rightTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  ),
+
+                  // LINE DATA
+                  lineBarsData: [
+                    LineChartBarData(
+                      isCurved: true,
+                      color: const Color(0xFF06C167),
+                      barWidth: 4,
+                      spots: const [
+                        FlSpot(0, 4),
+                        FlSpot(1, 6),
+                        FlSpot(2, 3),
+                        FlSpot(3, 8),
+                        FlSpot(4, 5),
+                        FlSpot(5, 7),
+                        FlSpot(6, 9),
+                      ],
+
+                      // Gradient under line
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            const Color(0xFF06C167).withOpacity(0.3),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                      dotData: const FlDotData(show: false),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+
+            const SizedBox(height: 30),
+
+              // Action Breakdown
+              const Text(
+                "Action Breakdown",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              MonthlyTrendBarChart(
+                data: [24, 32, 28, 36], // Your weekly data, replace with your values
+              ),
+
+
+              const SizedBox(height: 40),
+
+              // Bottom Message Box
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 20,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade100,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade400,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.emoji_events, color: Colors.white),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: RichText(
+                        text: const TextSpan(
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: 'Poppins',
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Outstanding Progress! 🎉\n",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            TextSpan(
+                              text:
+                                  "You've completed 42 eco-friendly actions this month. Keep up the amazing work!",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 40),
             ],
           ),
         ),
-      ),
-    );
+      ],
+    ),
+  ),
+);
+
   }
 }
 

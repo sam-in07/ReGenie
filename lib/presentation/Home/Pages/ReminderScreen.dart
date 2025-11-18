@@ -85,42 +85,236 @@ class _ReminderscreenState extends State<Reminderscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.grayLight,
-      appBar: AppBar(
-        title: const Text("Eco Reminders"),
-        actions: [
-          IconButton(
-            icon: Icon(
-              notificationsEnabled ? Icons.notifications : Icons.notifications_off,
-            ),
-            onPressed: () {
-              setState(() {
-                notificationsEnabled = !notificationsEnabled;
-              });
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AddReminderButton(
-              onPressed: () {
-                // Handle adding a new reminder
-              },
+
+
+            // ---------- GREEN HEADER CONTAINER ----------
+            Container(
+              width: double.infinity,
+              height: 400,
+              decoration: const BoxDecoration(
+                color: Color(0xFF00BC7D),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40),
+                ),
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 48),
+
+                      // HEADER
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Title Text
+                          const Text(
+                            'Eco Reminders',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+
+                          // Bell Icon (Optional)
+                          const Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // Active reminders text
+                      const Text(
+                        '3 active reminders',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white70,
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Custom Card for Enable Notifications Section
+                      Container(
+                        width: double.infinity,
+                        height: 78.70, // Height of the card
+                        padding: const EdgeInsets.only(top: 16, left: 16, bottom: 16),
+                        decoration: ShapeDecoration(
+                          color: Colors.white.withOpacity(0.95), // White background with opacity
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.40), // Rounded corners
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                width: 350,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Left side: Text content
+                                    Container(
+                                      width: 234.30,
+                                      height: 46.70,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          // Notification Icon
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(),
+                                            child: Icon(
+                                              Icons.notifications,
+                                              size: 20,
+                                              color: Color(0xFF00BC7D), // Green color for the icon
+                                            ),
+                                          ),
+                                          // Text content in column
+                                          Expanded(
+                                            child: Container(
+                                              height: 46.70,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  // Title for notification toggle
+                                                  Text(
+                                                    'Enable Notifications',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF1D2838),
+                                                      fontSize: 16,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w600,
+                                                      height: 1.40,
+                                                    ),
+                                                  ),
+                                                  // Subtitle for reminder info
+                                                  Text(
+                                                    'Receive daily eco reminders',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF495565),
+                                                      fontSize: 15.20,
+                                                      fontFamily: 'Inter',
+                                                      fontWeight: FontWeight.w400,
+                                                      height: 1.60,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    // Right side: Toggle switch container
+                                    Container(
+                                      width: 32,
+                                      height: 18.39,
+                                      padding: const EdgeInsets.only(left: 14),
+                                      decoration: ShapeDecoration(
+                                        color: const Color(0xFF171717), // Background color for toggle
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            width: 1,
+                                            color: Colors.black.withOpacity(0), // No border
+                                          ),
+                                          borderRadius: BorderRadius.circular(33554400),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          // Inner white circle representing the switch
+                                          Container(
+                                            width: 16,
+                                            height: 16,
+                                            decoration: ShapeDecoration(
+                                              color: const Color(0xFFFAFAFA), // White circle
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(33554400),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(height: 16),
-            ...reminders.map((reminder) => ReminderItem(
-              reminder: reminder,
-              onToggle: () => toggleReminder(reminder.id),
-              onDelete: () => deleteReminder(reminder.id),
-            )),
-            const InfoCard(),
+
+
+
+            // ---------- MAIN CONTENT BELOW GREEN HEADER ----------
+            // ---------- MAIN CONTENT BELOW GREEN HEADER ----------
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Body content
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ListView(
+                      shrinkWrap: true, // Ensures the ListView does not expand infinitely
+                      children: [
+                        AddReminderButton(
+                          onPressed: () {
+                            // Handle adding a new reminder
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        // Map through reminders list to display them
+                        ...reminders.map((reminder) => ReminderItem(
+                          reminder: reminder,
+                          onToggle: () => toggleReminder(reminder.id),
+                          onDelete: () => deleteReminder(reminder.id),
+                        )),
+                        const InfoCard(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

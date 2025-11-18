@@ -7,6 +7,8 @@ import 'package:regenie/core/firebase/firebase_service.dart';
 import 'package:regenie/data/repositories/user_repo_impl.dart';
 import 'package:regenie/domain/usecases/get_daily_challenge.dart';
 import 'package:regenie/presentation/Challenges/Bloc/challenges_cubit.dart';
+import 'package:regenie/presentation/Home/Pages/ReminderScreen.dart';
+import 'package:regenie/presentation/Home/Pages/progress_screen.dart';
 import 'package:regenie/presentation/Leaderboard/pages/debug_add_dummy_users.dart';
 import 'package:regenie/presentation/Splash/splash_screen.dart';
 import 'package:regenie/presentation/User/Bloc/user_cubit.dart';
@@ -66,17 +68,34 @@ class MyApp extends StatelessWidget {
       ),
 
       // The first screen that shows up
-      initialRoute: AppRoutes.splash,
+
+      //initialRoute: AppRoutes.splash,
 
       // All available routes in your app
-      routes: {
-        AppRoutes.splash: (context) => const SplashScreen(),
-        AppRoutes.login: (context) => const LoginScreen(),
-        AppRoutes.register: (context) => const RegistrationScreen(),
-        AppRoutes.onboarding: (context) => const OnboardingScreen(),
-        AppRoutes.main: (context) => const BottomNavBar(), // ✅ Correct place
-      },
+
+      // routes: {
+      //   AppRoutes.splash: (context) => const SplashScreen(),
+      //   AppRoutes.login: (context) => const LoginScreen(),
+      //   AppRoutes.register: (context) => const RegistrationScreen(),
+      //   AppRoutes.onboarding: (context) => const OnboardingScreen(),
+      //   AppRoutes.main: (context) => const BottomNavBar(), // ✅ Correct place
+      // },
+      home:  Reminderscreen(),
+
+
+
     );
   }
 
 }
+
+
+
+/*
+return MaterialApp(
+      title: 'Learn Sphere',
+      debugShowCheckedModeBanner: false,
+      home:  Splashscreen(),
+    );
+
+ */
