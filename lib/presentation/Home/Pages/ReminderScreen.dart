@@ -5,14 +5,17 @@ import 'package:regenie/presentation/widgets/Reminder/reminder.dart';
 import 'package:regenie/presentation/widgets/Reminder/reminder_item.dart';
 import 'package:regenie/presentation/widgets/colors.dart';
 import 'package:regenie/presentation/widgets/Reminder/info_card.dart';
- // Import the AppColors
+// Import the AppColors
+
 
 class Reminderscreen extends StatefulWidget {
   const Reminderscreen({super.key});
 
+
   @override
   State<Reminderscreen> createState() => _ReminderscreenState();
 }
+
 
 class _ReminderscreenState extends State<Reminderscreen> {
   List<Reminder> reminders = [
@@ -63,7 +66,9 @@ class _ReminderscreenState extends State<Reminderscreen> {
     ),
   ];
 
+
   bool notificationsEnabled = true;
+
 
   void toggleReminder(String id) {
     setState(() {
@@ -76,26 +81,35 @@ class _ReminderscreenState extends State<Reminderscreen> {
     });
   }
 
+
   void deleteReminder(String id) {
     setState(() {
       reminders = reminders.where((reminder) => reminder.id != id).toList();
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
+
+      // bottomNavigationBar: BottomNavBar(),
+
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
 
+
+
             // ---------- GREEN HEADER CONTAINER ----------
             Container(
               width: double.infinity,
-              height: 400,
+              height: 250,
               decoration: const BoxDecoration(
                 color: Color(0xFF00BC7D),
                 borderRadius: BorderRadius.only(
@@ -111,6 +125,7 @@ class _ReminderscreenState extends State<Reminderscreen> {
                     children: [
                       const SizedBox(height: 48),
 
+
                       // HEADER
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,6 +140,7 @@ class _ReminderscreenState extends State<Reminderscreen> {
                             ),
                           ),
 
+
                           // Bell Icon (Optional)
                           const Icon(
                             Icons.notifications,
@@ -133,7 +149,9 @@ class _ReminderscreenState extends State<Reminderscreen> {
                         ],
                       ),
 
-                      const SizedBox(height: 8),
+
+                      const SizedBox(height: 12 ),
+
 
                       // Active reminders text
                       const Text(
@@ -144,12 +162,15 @@ class _ReminderscreenState extends State<Reminderscreen> {
                         ),
                       ),
 
+
                       const SizedBox(height: 16),
+
 
                       // Custom Card for Enable Notifications Section
                       Container(
+                        // width: double.infinity,
                         width: double.infinity,
-                        height: 78.70, // Height of the card
+                        height: 79, // Height of the card
                         padding: const EdgeInsets.only(top: 16, left: 16, bottom: 16),
                         decoration: ShapeDecoration(
                           color: Colors.white.withOpacity(0.95), // White background with opacity
@@ -192,6 +213,9 @@ class _ReminderscreenState extends State<Reminderscreen> {
                                             ),
                                           ),
                                           // Text content in column
+                                          SizedBox(width: 12),
+
+
                                           Expanded(
                                             child: Container(
                                               height: 46.70,
@@ -229,6 +253,12 @@ class _ReminderscreenState extends State<Reminderscreen> {
                                         ],
                                       ),
                                     ),
+
+
+                                    //SizedBox(width: 70),
+
+
+
 
                                     // Right side: Toggle switch container
                                     Container(
@@ -279,6 +309,9 @@ class _ReminderscreenState extends State<Reminderscreen> {
 
 
 
+
+
+
             // ---------- MAIN CONTENT BELOW GREEN HEADER ----------
             // ---------- MAIN CONTENT BELOW GREEN HEADER ----------
             Padding(
@@ -318,3 +351,8 @@ class _ReminderscreenState extends State<Reminderscreen> {
     );
   }
 }
+
+
+
+
+

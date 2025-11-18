@@ -43,11 +43,12 @@ class ProgressTrackerScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+
             // ---------- GREEN HEADER CONTAINER ----------
             Container(
               width: double.infinity,
-              // Remove fixed height, make it dynamic
-              constraints: BoxConstraints(minHeight: 250),
+              height: 250,
               decoration: const BoxDecoration(
                 color: Color(0xFF00BC7D),
                 borderRadius: BorderRadius.only(
@@ -59,9 +60,10 @@ class ProgressTrackerScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,  // Prevent Column from expanding too much
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
+
                       const SizedBox(height: 25),
 
 
@@ -101,45 +103,45 @@ class ProgressTrackerScreen extends StatelessWidget {
 
 
                       // Summary Cards (inside green header)
-                      Flexible(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Icons.trending_up,
-                                title: "$thisWeek",
-                                subtitle: "This Week",
-                                iconColor: Colors.green.shade300,
-                                bgColor: Colors.white,
-                                textColor: Colors.black87,
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.trending_up,
+                              title: "$thisWeek",
+                              subtitle: "This Week",
+                              iconColor: Colors.green.shade300,
+                              bgColor: Colors.white,
+                              textColor: Colors.black87,
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Icons.calendar_today,
-                                title: avgPerDay.toStringAsFixed(1),
-                                subtitle: "Avg/Day",
-                                iconColor: Colors.blue.shade400,
-                                bgColor: Colors.white,
-                                textColor: Colors.black87,
-                              ),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.calendar_today,
+                              title: avgPerDay.toStringAsFixed(1),
+                              subtitle: "Avg/Day",
+                              iconColor: Colors.blue.shade400,
+                              bgColor: Colors.white,
+                              textColor: Colors.black87,
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: SummaryCard(
-                                icon: Icons.local_fire_department,
-                                title: "$dayStreak",
-                                subtitle: "Day Streak",
-                                iconColor: Colors.orange.shade400,
-                                bgColor: Colors.white,
-                                textColor: Colors.black87,
-                              ),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: SummaryCard(
+                              icon: Icons.local_fire_department,
+                              title: "$dayStreak",
+                              subtitle: "Day Streak",
+                              iconColor: Colors.orange.shade400,
+                              bgColor: Colors.white,
+                              textColor: Colors.black87,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+
+
                     ],
                   ),
                 ),
@@ -153,8 +155,16 @@ class ProgressTrackerScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+
                   // Eco Actions This Week
+
+
+
                   const SizedBox(height: 30),
+
+
+
                   const Text(
                     "Eco Actions This Week",
                     style: TextStyle(
@@ -166,7 +176,6 @@ class ProgressTrackerScreen extends StatelessWidget {
                   const SizedBox(height: 12),
 
 
-                  // Line Chart for Weekly Eco Actions
                   Container(
                     height: 180,
                     decoration: BoxDecoration(
@@ -233,7 +242,8 @@ class ProgressTrackerScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                          rightTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
                           topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                         ),
 
@@ -275,6 +285,8 @@ class ProgressTrackerScreen extends StatelessWidget {
                   ),
 
 
+
+
                   const SizedBox(height: 30),
 
 
@@ -291,8 +303,10 @@ class ProgressTrackerScreen extends StatelessWidget {
 
 
                   MonthlyTrendBarChart(
-                    data: [24, 32, 28, 36], // Your monthly data
+                    data: [24, 32, 28, 36], // Your weekly data, replace with your values
                   ),
+
+
 
 
                   const SizedBox(height: 40),
@@ -356,8 +370,14 @@ class ProgressTrackerScreen extends StatelessWidget {
         ),
       ),
     );
+
+
   }
 }
+
+
+
+
 
 
 class ActionData {
@@ -368,6 +388,174 @@ class ActionData {
 
 
   ActionData(this.title, this.count, this.icon, this.iconColor);
+}
+
+
+class _ActionBreakdownTile extends StatelessWidget {
+  final ActionData action;
+
+
+  const _ActionBreakdownTile({required this.action});
+
+
+  @override
+  Widget build(BuildContext context) {
+    final double progress = (action.count / 30).clamp(0, 1);
+
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Icon(action.icon, color: action.iconColor, size: 28),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  action.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    color: action.iconColor,
+                    backgroundColor: action.iconColor.withOpacity(0.3),
+                    minHeight: 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          Text(
+            "${action.count}",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: action.iconColor,
+            ),
+          ),
+          const SizedBox(width: 4),
+          const Text(
+            "times",
+            style: TextStyle(fontSize: 14, color: Colors.black54),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+// Simple Line Chart Painter for weekly data
+class LineChartPainter extends CustomPainter {
+  final List<int> data;
+  LineChartPainter(this.data);
+
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paintLine = Paint()
+      ..color = Colors.green.shade600
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+
+    final paintFill = Paint()
+      ..color = Colors.green.shade100.withOpacity(0.5)
+      ..style = PaintingStyle.fill;
+
+
+    final double stepX = size.width / (data.length - 1);
+    final double maxY = 12;
+
+
+    // Calculate points
+    List<Offset> points = [];
+    for (int i = 0; i < data.length; i++) {
+      double dx = stepX * i;
+      double dy = size.height - (data[i] / maxY) * size.height;
+      points.add(Offset(dx, dy));
+    }
+
+
+    // Draw fill under line
+    Path fillPath = Path()..moveTo(points.first.dx, size.height);
+    for (final point in points) {
+      fillPath.lineTo(point.dx, point.dy);
+    }
+    fillPath.lineTo(points.last.dx, size.height);
+    fillPath.close();
+    canvas.drawPath(fillPath, paintFill);
+
+
+    // Draw line
+    Path linePath = Path()..moveTo(points.first.dx, points.first.dy);
+    for (int i = 1; i < points.length; i++) {
+      linePath.lineTo(points[i].dx, points[i].dy);
+    }
+    canvas.drawPath(linePath, paintLine);
+
+
+    // Draw dots
+    final paintDot = Paint()..color = Colors.green.shade600;
+    for (final point in points) {
+      canvas.drawCircle(point, 5, paintDot);
+    }
+  }
+
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+
+// Simple Bar Chart Painter for monthly data
+class BarChartPainter extends CustomPainter {
+  final List<int> data;
+  BarChartPainter(this.data);
+
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paintBar = Paint()..color = Colors.green.shade600;
+
+
+    final double barWidth = size.width / (data.length * 2);
+    final double maxY = 36;
+
+
+    for (int i = 0; i < data.length; i++) {
+      final x = (i * 2 + 1) * barWidth;
+      final barHeight = (data[i] / maxY) * size.height;
+      final rect = Rect.fromLTWH(
+        x,
+        size.height - barHeight,
+        barWidth,
+        barHeight,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(rect, const Radius.circular(6)),
+        paintBar,
+      );
+    }
+  }
+
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 
@@ -393,7 +581,7 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Removed fixed width, let it be flexible
+      width: 88,
       height: 104,
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
       decoration: BoxDecoration(
@@ -426,14 +614,6 @@ class SummaryCard extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
 
 
 

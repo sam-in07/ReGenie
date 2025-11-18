@@ -7,8 +7,10 @@ import 'package:regenie/presentation/Home/Pages/ReminderScreen.dart';
 import 'package:regenie/presentation/Home/Pages/progress_screen.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/small_card.dart';
 
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,13 @@ class HomeScreen extends StatelessWidget {
     final width = size.width;
     final height = size.height;
 
+
     final uid = FirebaseAuth.instance.currentUser!.uid;
+
 
     return Scaffold(
       backgroundColor: const Color(0xFFD1F1DD),
+
 
       // 🔥 STREAM USER DATA FROM FIRESTORE LIVE
       body: StreamBuilder<DocumentSnapshot>(
@@ -32,17 +37,21 @@ class HomeScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
+
           final data = snapshot.data!.data() as Map<String, dynamic>?;
+
 
           if (data == null) {
             return const Center(child: Text("User data not found"));
           }
+
 
           final String name = data['name'] ?? "User";
           final int points = data['points'] ?? 0;
           final int level = data['level'] ?? 1;
           final int rank = data['rank'] ?? 0;
           final int challenges = data['challengesCompleted'] ?? 0;
+
 
           return SingleChildScrollView(
             child: Column(
@@ -68,8 +77,10 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
 
+
                         children: [
                           const SizedBox(height: 48),
+
 
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,6 +110,7 @@ class HomeScreen extends StatelessWidget {
                                 ],
                               ),
 
+
                               const SizedBox(
                                 width: 290,
                               ), // space between texts and image
@@ -111,6 +123,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 35),
+
 
                           // Eco Points Card
                           Container(
@@ -194,7 +207,9 @@ class HomeScreen extends StatelessWidget {
                                   ],
                                 ),
 
+
                                 const SizedBox(height: 26),
+
 
                                 // Gradient progress bar
                                 Stack(
@@ -226,7 +241,9 @@ class HomeScreen extends StatelessWidget {
                                   ],
                                 ),
 
+
                                 const SizedBox(height: 26),
+
 
                                 // Points to next level
                                 Text(
@@ -247,6 +264,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
 
                 // 🔥 Wrap everything below in padding
                 Padding(
@@ -291,7 +309,9 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
 
+
                       SizedBox(height: height * 0.02),
+
 
                       // 💧 Challenge Card
                       Container(
@@ -371,7 +391,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
+
                       SizedBox(height: height * 0.035),
+
 
                       // 🏆 Two Info Cards
                       // Row(
@@ -448,10 +470,13 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
 
+
                         ],
                       ),
 
+
                       SizedBox(height: height * 0.04),
+
 
                       // 💬 Ask ReGenie Section
                       Text(
@@ -464,7 +489,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
+
                       SizedBox(height: height * 0.02),
+
 
                       Container(
                         width: double.infinity,
@@ -565,3 +592,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+
