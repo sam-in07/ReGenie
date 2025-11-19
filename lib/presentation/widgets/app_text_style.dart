@@ -100,6 +100,12 @@ class AppTextstyle {
     color: Color.fromARGB(255, 21, 153, 61),
     fontWeight: FontWeight.w800,
   );
+
+  static TextStyle textStyle24whiteW600 = GoogleFonts.poppins(
+    fontSize: 24,
+    color: Color(0xffffffff),
+    fontWeight: FontWeight.w600,
+  );
 }
 
 

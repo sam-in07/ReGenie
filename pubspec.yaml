@@ -115,6 +115,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/profiles/
+    - assets/reminderscreen/
+    - assets/progressscren/
     - assets/.env
 
     # An image asset can refer to one or more resolution-specific "variants", see

@@ -74,13 +74,15 @@ class ProgressTrackerScreen extends StatelessWidget {
                             color: Colors.white.withOpacity(0.25),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
-                            Icons.arrow_back_ios_new,
-                            color: Colors.white,
-                            size: 20,
+                          child: Image.asset(
+                            'assets/progressscren/back_btn.png',
+                            height: 20,
+                            width: 20,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
+
                       const SizedBox(width: 12),
                       const Text(
                         "Progress Tracker",
@@ -397,7 +399,10 @@ class SummaryCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, color: iconColor, size: 28),
+          Icon(icon,
+              color: iconColor,
+              size: 24 ,
+          ),
           const SizedBox(height: 8),
           Text(
             title,

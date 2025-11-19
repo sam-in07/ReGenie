@@ -64,7 +64,7 @@ import 'package:flutter/material.dart';
 
 
 
-class SummaryCard extends StatelessWidget {
+class SummaryCard11 extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
@@ -73,7 +73,7 @@ class SummaryCard extends StatelessWidget {
   final Color textColor;
 
 
-  const SummaryCard({
+  const SummaryCard11({
     required this.icon,
     required this.title,
     required this.subtitle,
