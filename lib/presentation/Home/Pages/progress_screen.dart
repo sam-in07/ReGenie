@@ -286,6 +286,8 @@ class ProgressTrackerScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
 
+                  
+
 
                   MonthlyTrendBarChart(
                     data: [24, 32, 28, 36], // Your monthly data
