@@ -1,12 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:regenie/presentation/Home/Pages/progress_screen.dart';
+import 'package:regenie/presentation/widgets/Action_data.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/monthly_bar_trend.dart';
+import 'package:regenie/presentation/widgets/Button_Cards/summary_card.dart';
 import 'package:regenie/presentation/widgets/Reminder/reminder.dart';
 import 'package:regenie/presentation/widgets/Reminder/reminder_item.dart';
+import 'package:regenie/presentation/widgets/app_text_style.dart';
 import 'package:regenie/presentation/widgets/colors.dart';
 import 'package:regenie/presentation/widgets/Reminder/info_card.dart';
 import 'package:regenie/presentation/navigation/bottom_nav.dart'; // Import BottomNavBar
-import 'package:regenie/presentation/widgets/Button_Cards/summary_card.dart';
 
 
 class ProgressTrackerScreen extends StatelessWidget {
@@ -84,14 +87,9 @@ class ProgressTrackerScreen extends StatelessWidget {
                       ),
 
                       const SizedBox(width: 12),
-                      const Text(
+                       Text(
                         "Progress Tracker",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          fontFamily: "Poppins",
-                        ),
+                        style: AppTextstyle.textStyle24whiteW600,
                       ),
                     ],
                   ),
@@ -152,13 +150,9 @@ class ProgressTrackerScreen extends StatelessWidget {
                 children: [
                   // Eco Actions This Week
                   const SizedBox(height: 30),
-                  const Text(
+                   Text(
                     "Eco Actions This Week",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black87,
-                    ),
+                    style: AppTextstyle.textStyle20blackyW600,
                   ),
                   const SizedBox(height: 12),
 
@@ -276,13 +270,9 @@ class ProgressTrackerScreen extends StatelessWidget {
 
 
                   // Action Breakdown
-                  const Text(
+                   Text(
                     "Action Breakdown",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black87,
-                    ),
+                    style: AppTextstyle.textStyle20blackyW600,
                   ),
                   const SizedBox(height: 16),
 
@@ -312,31 +302,36 @@ class ProgressTrackerScreen extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.orange.shade400,
                             shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFFFB900), // start
+                                Color(0xFFFF6900), // end
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                           ),
-                          child: const Icon(Icons.emoji_events, color: Colors.white),
+                          child: Image.asset(
+                            'assets/progressscren/badge.png',
+                            width: 24,
+                            height: 24,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                         const SizedBox(width: 20),
                         Expanded(
                           child: RichText(
-                            text: const TextSpan(
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontFamily: 'Poppins',
-                              ),
+                            text: TextSpan(
                               children: [
                                 TextSpan(
                                   text: "Outstanding Progress! 🎉\n",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
+                                  style: AppTextstyle.textStyle16darkblackW600,    // custom title text style
                                 ),
                                 TextSpan(
                                   text:
                                   "You've completed 42 eco-friendly actions this month. Keep up the amazing work!",
-                                  style: TextStyle(fontSize: 14),
+                                  style: AppTextstyle.textStyle16greyW400, // custom description text style
                                 ),
                               ],
                             ),
@@ -357,86 +352,6 @@ class ProgressTrackerScreen extends StatelessWidget {
     );
   }
 }
-
-
-class ActionData {
-  final String title;
-  final int count;
-  final IconData icon;
-  final Color iconColor;
-
-
-  ActionData(this.title, this.count, this.icon, this.iconColor);
-}
-
-
-class SummaryCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color iconColor;
-  final Color bgColor;
-  final Color textColor;
-
-
-  const SummaryCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.iconColor,
-    required this.bgColor,
-    required this.textColor,
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // Removed fixed width, let it be flexible
-      height: 104,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          Icon(icon,
-              color: iconColor,
-              size: 24 ,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-              color: textColor,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-              color: textColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-
-
-
-
-
-
 
 
 

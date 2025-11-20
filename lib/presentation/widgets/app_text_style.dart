@@ -106,6 +106,11 @@ class AppTextstyle {
     color: Color(0xffffffff),
     fontWeight: FontWeight.w600,
   );
+  static TextStyle textStyle20blackyW600 = GoogleFonts.poppins(
+    fontSize: 20,
+    color: Color(0xff1e2939),
+    fontWeight: FontWeight.w600,
+  );
 }
 
 
