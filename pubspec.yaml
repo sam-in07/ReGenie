@@ -53,6 +53,9 @@ dependencies:
   dartz: ^0.10.1
   #sql
   sqflite: ^2.4.2
+  isar: ^3.1.0+1
+  #wifi offline
+  connectivity_plus: ^7.0.0
   #path
   path: ^1.9.1
   path_provider: ^2.1.5
@@ -82,6 +85,8 @@ dependencies:
   flutter_markdown_plus: ^1.0.5
   #fl chart
   fl_chart: ^1.1.1
+  #devise info
+  device_info_plus: ^12.2.0
 
 
 

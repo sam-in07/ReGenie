@@ -21,6 +21,8 @@ class AppColors {
   static const emeraldLight = Color(0xFF6EE7B7);
   static const grayLight = Color(0xFFF3F4F6);
   static const gray = Color(0xFF9CA3AF);
+  static const btn_shades = Color(0xFF009966);
+  static const lightorng = Color(0xFFFFF7ED);
 
 
 }

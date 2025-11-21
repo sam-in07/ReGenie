@@ -69,18 +69,19 @@ class MyApp extends StatelessWidget {
 
       // The first screen that shows up
 
-      //initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.splash,
 
       // All available routes in your app
 
-      // routes: {
-      //   AppRoutes.splash: (context) => const SplashScreen(),
-      //   AppRoutes.login: (context) => const LoginScreen(),
-      //   AppRoutes.register: (context) => const RegistrationScreen(),
-      //   AppRoutes.onboarding: (context) => const OnboardingScreen(),
-      //   AppRoutes.main: (context) => const BottomNavBar(), // ✅ Correct place
-      // },
-      home:  Reminderscreen(),
+      routes: {
+        AppRoutes.splash: (context) => const SplashScreen(),
+        AppRoutes.login: (context) => const LoginScreen(),
+        AppRoutes.register: (context) => const RegistrationScreen(),
+        AppRoutes.onboarding: (context) => const OnboardingScreen(),
+        AppRoutes.main: (context) => const BottomNavBar(), // ✅ Correct place
+      },
+
+     // home:  ProgressTrackerScreen(),
 
 
 

@@ -40,7 +40,7 @@ class ProgressTrackerScreen extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFD1F1DD),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -79,11 +79,12 @@ class ProgressTrackerScreen extends StatelessWidget {
                           ),
                           child: Image.asset(
                             'assets/progressscren/back_btn.png',
-                            height: 20,
-                            width: 20,
+                            height: 54,
+                            width: 54,
                             fit: BoxFit.contain,
                           ),
                         ),
+
                       ),
 
                       const SizedBox(width: 12),
@@ -271,7 +272,7 @@ class ProgressTrackerScreen extends StatelessWidget {
 
                   // Action Breakdown
                    Text(
-                    "Action Breakdown",
+                    "Monthly Trend",
                     style: AppTextstyle.textStyle20blackyW600,
                   ),
                   const SizedBox(height: 16),
@@ -284,17 +285,31 @@ class ProgressTrackerScreen extends StatelessWidget {
                   ),
 
 
+                  const SizedBox(height: 16),
+                  Text(
+                    "Action Breakdown",
+                    style: AppTextstyle.textStyle20blackyW600,
+                  ),
+                  const SizedBox(height: 8),
+                  ...actions.map((action) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: ActionBreakdownTile(action: action),
+                    );
+                  }).toList(),
+
                   const SizedBox(height: 40),
+
 
 
                   // Bottom Message Box
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 24,
-                      horizontal: 20,
+                      vertical: 30,
+                      horizontal: 30,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.orange.shade100,
+                      color: AppColors.lightorng,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Row(
@@ -330,7 +345,7 @@ class ProgressTrackerScreen extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text:
-                                  "You've completed 42 eco-friendly actions this month. Keep up the amazing work!",
+                                  "You've completed 42 eco-friendly\nactions this month. Keep up the\namazing work!",
                                   style: AppTextstyle.textStyle16greyW400, // custom description text style
                                 ),
                               ],

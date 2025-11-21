@@ -190,7 +190,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           completedChallengeIds.contains(challenge['id']);
     }
 
-    setState(() {});
+      (() {});
   }
 
   /// 🔥 Complete challenge and update Firestore
