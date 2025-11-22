@@ -7,6 +7,7 @@ import 'package:regenie/core/firebase/firebase_service.dart';
 import 'package:regenie/data/repositories/user_repo_impl.dart';
 import 'package:regenie/domain/usecases/get_daily_challenge.dart';
 import 'package:regenie/presentation/Challenges/Bloc/challenges_cubit.dart';
+import 'package:regenie/presentation/Challenges/pages/challenges_screen.dart';
 import 'package:regenie/presentation/Home/Pages/ReminderScreen.dart';
 import 'package:regenie/presentation/Home/Pages/progress_screen.dart';
 import 'package:regenie/presentation/Leaderboard/pages/debug_add_dummy_users.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   // await Firebase.initializeApp();
   await writeDummyLeaderboard();
 
@@ -81,7 +83,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.main: (context) => const BottomNavBar(), // ✅ Correct place
       },
 
-     // home:  ProgressTrackerScreen(),
+     // home:  ChallengesScreen(),
 
 
 

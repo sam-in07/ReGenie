@@ -190,8 +190,9 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           completedChallengeIds.contains(challenge['id']);
     }
 
-      (() {});
+    setState(() {});   // ← THIS WAS MISSING
   }
+
 
   /// 🔥 Complete challenge and update Firestore
   Future<void> completeChallenge(int points, String challengeId) async {
