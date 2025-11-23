@@ -1,9 +1,15 @@
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:regenie/core/firebase/ai_service.dart';
 import 'package:regenie/presentation/widgets/Button_Cards/figma_header_chat.dart';
 
 import 'package:regenie/presentation/widgets/primary_header.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
+
+
+
 
 
 class ChatScreen extends StatefulWidget {
@@ -101,60 +107,125 @@ class _ChatScreenState extends State<ChatScreen> {
                   final message = _messages[index];
                   final isUser = message['isUser'] as bool;
 
+                  // return Column(
+                  //   crossAxisAlignment:
+                  //   isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                  //   children: [
+                  //     Container(
+                  //       margin: const EdgeInsets.symmetric(vertical: 6),
+                  //       padding: const EdgeInsets.all(14),
+                  //       constraints: const BoxConstraints(maxWidth: 280),
+                  //       decoration: BoxDecoration(
+                  //         color: isUser
+                  //             ? const Color(0xFF00C48C)
+                  //             : Colors.white,
+                  //         borderRadius: BorderRadius.circular(24),
+                  //         boxShadow: const [
+                  //           BoxShadow(
+                  //             color: Color(0x19000000),
+                  //             blurRadius: 4,
+                  //             offset: Offset(0, 2),
+                  //             spreadRadius: -2,
+                  //           ),
+                  //           BoxShadow(
+                  //             color: Color(0x19000000),
+                  //             blurRadius: 6,
+                  //             offset: Offset(0, 4),
+                  //             spreadRadius: -1,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       child: Text(
+                  //         message['text'],
+                  //         style: TextStyle(
+                  //           color:
+                  //           isUser ? Colors.white : const Color(0xFF1D2838),
+                  //           fontSize: 15.2,
+                  //           height: 1.6,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.only(
+                  //           left: isUser ? 0 : 8,
+                  //           right: isUser ? 8 : 0,
+                  //           bottom: 4),
+                  //       child: Text(
+                  //         message['time'],
+                  //         style: const TextStyle(
+                  //           color: Color(0xFF697282),
+                  //           fontSize: 13,
+                  //           height: 1.6,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // );
                   return Column(
                     crossAxisAlignment:
                     isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 6),
-                        padding: const EdgeInsets.all(14),
-                        constraints: const BoxConstraints(maxWidth: 280),
-                        decoration: BoxDecoration(
-                          color: isUser
-                              ? const Color(0xFF00C48C)
-                              : Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x19000000),
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                              spreadRadius: -2,
+                      // BubbleSpecialThree(
+                      //   text: message['text'],
+                      //   tail: true,
+                      //   color: isUser
+                      //       ? const Color(0xFF00C48C)
+                      //       : Colors.white,
+                      //   isSender: isUser,
+                      //   textStyle: TextStyle(
+                      //     color: isUser ? Colors.white : const Color(0xFF1D2838),
+                      //     fontSize: 15.5,
+                      //     height: 1.5,
+                      //   ),
+                      // ),
+                  Bubble(
+                  alignment: isUser ? Alignment.topRight : Alignment.topLeft,
+                    nip: isUser ? BubbleNip.rightBottom : BubbleNip.leftBottom,
+                    color: isUser ? const Color(0xFF00C48C) : Colors.white,
+                    margin: const BubbleEdges.symmetric(vertical: 6),
+                    padding: const BubbleEdges.all(0), // remove bubble padding
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.75, // 75% bubble width
+                        minWidth: 40,
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        child: Markdown(
+                          data: message['text'],
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          styleSheet: MarkdownStyleSheet(
+                            p: TextStyle(
+                              color: isUser ? Colors.white : const Color(0xFF1D2838),
+                              fontSize: 15.5,
+                              height: 1.5,
                             ),
-                            BoxShadow(
-                              color: Color(0x19000000),
-                              blurRadius: 6,
-                              offset: Offset(0, 4),
-                              spreadRadius: -1,
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          message['text'],
-                          style: TextStyle(
-                            color:
-                            isUser ? Colors.white : const Color(0xFF1D2838),
-                            fontSize: 15.2,
-                            height: 1.6,
                           ),
                         ),
                       ),
+                    ),
+                  ),
+
+
                       Padding(
                         padding: EdgeInsets.only(
-                            left: isUser ? 0 : 8,
-                            right: isUser ? 8 : 0,
-                            bottom: 4),
+                          left: isUser ? 0 : 12,
+                          right: isUser ? 12 : 0,
+                          top: 2,
+                          bottom: 8,
+                        ),
                         child: Text(
                           message['time'],
                           style: const TextStyle(
                             color: Color(0xFF697282),
-                            fontSize: 13,
-                            height: 1.6,
+                            fontSize: 12.5,
                           ),
                         ),
                       ),
                     ],
                   );
+
                 },
               ),
             ),

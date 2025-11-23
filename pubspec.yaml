@@ -87,6 +87,9 @@ dependencies:
   fl_chart: ^1.1.1
   #devise info
   device_info_plus: ^12.2.0
+  #chat_bubbles:
+  chat_bubbles: ^1.7.0
+  bubble: ^1.2.1
 
 
 

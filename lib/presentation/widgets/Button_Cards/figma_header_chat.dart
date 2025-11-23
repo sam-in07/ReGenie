@@ -103,8 +103,8 @@ Widget buildFigmaHeader(BuildContext context) {
           // ),
           Image.asset(
             "assets/images/chat_ai.png",
-            width: 48,
-            height: 48,
+            width: 72,
+            height: 72,
           )
 
         ],

@@ -32,9 +32,11 @@ class SmallCard extends StatelessWidget {
         ],
       ),
       child: Column(
+
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 🌟 Replace Icon() with your asset image
+          const SizedBox(height: 18),
           Image.asset(
             iconPath,
             width: 48,   // adjust icon size
