@@ -178,6 +178,5 @@ This README will continue to grow with:
 
 
 
-# 📄 License
-
-# MIT License © 2025 Team- ECHOBLOC
+# YT Link 
+[Regine YT](https://youtube.com/playlist?list=PLa1XRahOdH1pYD8v537bzgKRIRZn8juZh&si=sKyqSrZA6F3b63Fw)
